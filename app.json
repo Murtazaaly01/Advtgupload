@@ -1,0 +1,50 @@
+{
+    "name": "Useless Media Bot",
+    "description": "Telegram bot to manage mirror/leech groups",
+    "keywords": [
+        "telegram",
+        "mirror",
+        "uploader",
+        "media",
+        "bot"
+        ],
+    "success_url": "http://t.me/uselessmedia_bot",
+    "website": "https://github.com/vinayak-7-0-3",
+    "repository": "https://github.com/vinayak-7-0-3",
+    "env": {
+      "TG_BOT_TOKEN": {
+        "description": "Your bot token, as a string.",
+        "value": "",
+        "required": true
+      },
+      "APP_ID": {
+        "description": "Get this value from https://my.telegram.org",
+        "value": "",
+        "required": true
+      },
+      "API_HASH": {
+        "description": "Get this value from https://my.telegram.org",
+        "value": "",
+        "required": true
+      },
+      "BOT_USERNAME": {
+        "description": "Your TG Bot User Name",
+        "value": ""
+      },
+      "BOT_LANGUAGE": {
+        "description": "Default Language for the bot to Interact",
+        "value": ""
+      }
+    },
+    "addons": [
+    ],
+    "buildpacks": [{
+      "url": "heroku/python"
+    }],
+    "formation": {
+      "worker": {
+        "quantity": 1,
+        "size": "free"
+      }
+    }
+  }
