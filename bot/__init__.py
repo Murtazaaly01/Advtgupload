@@ -1,6 +1,6 @@
 import os
 import logging
-from helpers.utils.bot_cmd import BOT_CMD
+from bot.helpers.utils.bot_cmd import BOT_CMD
 
 logging.basicConfig(
     level=logging.DEBUG,
