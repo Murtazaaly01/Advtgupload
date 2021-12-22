@@ -1,9 +1,8 @@
-from bot import LOGGER, Config, CMD
+from bot import Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
-from bot.helpers.utils.buttons import *
-from bot.helpers.database.database import check_user
-from pyrogram.types.bots_and_keyboards import CallbackQuery
+from bot.helpers.utils.buttons import help_buttons, start_buttons, settings_buttons
+from bot.helpers.database.database import check_user, fetch_media_details
 
 @Client.on_message(filters.command([CMD.START, f"{CMD.START}@{Config.BOT_USERNAME}"]))
 async def start(bot, update):
@@ -36,47 +35,16 @@ async def help(bot, update):
         reply_to_message_id=update.message_id
     )
 
-@Client.on_callback_query(filters.regex(pattern="helpmsg"))
-async def help_cb(c: Client, cb: CallbackQuery):
-    buttons = await help_buttons()
-    await c.edit_message_text(
-        chat_id=cb.message.chat.id,
-        text=lang.HELP_TEXT.format(cb.message.reply_to_message.from_user.first_name),
-        message_id=cb.message.message_id,
-        reply_markup=buttons
+@Client.on_message(filters.command([CMD.SETTINGS, f"{CMD.SETTINGS}@{Config.BOT_USERNAME}"]))
+async def settings(bot, update):
+    await check_user(update.from_user.id)
+    video_type, photo_type = await fetch_media_details(update.from_user.id)
+    first_name = update.from_user.first_name
+    buttons = await settings_buttons(video_type, photo_type)
+    await bot.send_message(
+        chat_id=update.chat.id,
+        text=lang.SETTINGS_TEXT.format(first_name),
+        reply_markup=buttons,
+        reply_to_message_id=update.message_id
     )
 
-@Client.on_callback_query(filters.regex(pattern="botinfo"))
-async def botinfo_cb(c: Client, cb: CallbackQuery):
-    buttons = await main_menu_buttons()
-    await c.edit_message_text(
-        chat_id=cb.message.chat.id,
-        text=lang.BOT_INFO.format(Config.OWNER_USERNAME),
-        message_id=cb.message.message_id,
-        reply_markup=buttons
-    )
-
-@Client.on_callback_query(filters.regex(pattern="close"))
-async def close_cb(c: Client, cb: CallbackQuery):
-    await c.delete_messages(
-        chat_id=cb.message.chat.id,
-        message_ids=cb.message.message_id
-    )
-    try:
-        await c.delete_messages(
-            chat_id=cb.message.chat.id,
-            message_ids=cb.message.reply_to_message.message_id
-        )
-    except:
-        LOGGER.warning(f"Couldn't delete message in {cb.message.chat.id}")
-        pass
-
-@Client.on_callback_query(filters.regex(pattern="uploadhelp"))
-async def upload_files_help_cb(c: Client, cb: CallbackQuery):
-    buttons = await upload_helper_buttons()
-    await c.edit_message_text(
-        chat_id=cb.message.chat.id,
-        text=lang.UPLOAD_HELP.format(Config.BOT_USERNAME),
-        message_id=cb.message.message_id,
-        reply_markup=buttons
-    )

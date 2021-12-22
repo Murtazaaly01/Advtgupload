@@ -37,4 +37,26 @@ class Database:
         photo_type = user.get('photo_type')
         return photo_type
 
+    async def change_video_type(self, user_id, video_type):
+        self.col.update_one(
+            {"id": user_id},
+            {
+                "$set": {
+                    "video_type": video_type
+
+            }
+        }
+        )
+    
+    async def change_photo_type(self, user_id, photo_type):
+        self.col.update_one(
+            {"id": user_id},
+            {
+                "$set": {
+                    "photo_type": photo_type
+
+            }
+        }
+        )
+
 db = Database(Config.DATABASE_URL, Config.BOT_USERNAME)

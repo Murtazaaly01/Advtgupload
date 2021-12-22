@@ -11,3 +11,7 @@ async def fetch_media_details(user_id):
     video_type = await db.video_type(id)
     photo_type = await db.photo_type(id)
     return video_type, photo_type
+
+async def change_video_type_db(user_id, video_type):
+    id = int(user_id)
+    await db.change_video_type(id, video_type)

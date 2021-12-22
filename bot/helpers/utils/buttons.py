@@ -63,20 +63,20 @@ async def main_menu_buttons():
     return InlineKeyboardMarkup(buttons)
 
 async def settings_buttons(video_type, photo_type):
-    video = video_type.upper() 
-    photo = photo_type.upper() 
+    video = video_type.upper()
+    photo = photo_type.upper()
 
     buttons = [
         [
             InlineKeyboardButton(
                 text=f"Video Type - {video}",
-                callback_data="change_video_type"
+                callback_data="changevideotype"
             )
         ],
         [
             InlineKeyboardButton(
                 text=f"Photo Type - {photo}",
-                callback_data="change_photo_type"
+                callback_data="changephototype"
             )
         ],
         [
