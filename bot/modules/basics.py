@@ -1,4 +1,4 @@
-from bot import Config, CMD
+from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.utils.buttons import *
@@ -59,7 +59,11 @@ async def close_cb(c: Client, cb: CallbackQuery):
         chat_id=cb.message.chat.id,
         message_ids=cb.message.message_id
     )
-    await c.delete_messages(
-        chat_id=cb.message.chat.id,
-        message_ids=cb.message.reply_to_message.message_id
-    )
+    try:
+        await c.delete_messages(
+            chat_id=cb.message.chat.id,
+            message_ids=cb.message.reply_to_message.message_id
+        )
+    except:
+        LOGGER.warning(f"Couldn't delete message in {cb.message.chat.id}")
+        pass
