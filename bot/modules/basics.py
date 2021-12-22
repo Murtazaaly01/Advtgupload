@@ -1,7 +1,8 @@
 from bot import Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
-from pyrogram.types.bots_and_keyboards import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery
+from bot.helpers.utils.buttons import *
+from pyrogram.types.bots_and_keyboards import CallbackQuery
 
 @Client.on_message(filters.command([CMD.START, f"{CMD.START}@{Config.BOT_USERNAME}"]))
 async def start(bot, update):
@@ -10,25 +11,11 @@ async def start(bot, update):
             "Bot only usable in the Authorized Chat"
         )
         return
+    buttons = await start_buttons()
     await bot.send_message(
         chat_id=update.chat.id,
         text=lang.START_TEXT.format(update.from_user.first_name),
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="Help",
-                        callback_data="help"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="Bot Info",
-                        callback_data="botinfo"
-                    )
-                ]
-            ]
-        ),
+        reply_markup=buttons,
         reply_to_message_id=update.message_id
     )
 
@@ -42,72 +29,28 @@ async def help(bot, update):
     await bot.send_message(
         chat_id=update.chat.id,
         text=lang.HELP_TEXT.format(update.from_user.first_name),
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="Upload Files",
-                        callback_data="upload_files"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="Close ",
-                        callback_data="close"
-                    )
-                ]
-            ]
-        ),
+        reply_markup=await help_buttons(),
         reply_to_message_id=update.message_id
     )
 
 @Client.on_callback_query(filters.regex(pattern="help"))
 async def help_cb(c: Client, cb: CallbackQuery):
-    await cb.answer()
+    buttons = await help_buttons()
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
-        text=lang.HELP_TEXT.format(cb.reply_to_message.from_user.first_name),
+        text=lang.HELP_TEXT.format(cb.message.reply_to_message.from_user.first_name),
         message_id=cb.message.message_id,
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="Upload Files",
-                        callback_data="upload_files"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="Close ",
-                        callback_data="close"
-                    )
-                ]
-            ]
-        )
+        reply_markup=buttons
     )
 
 @Client.on_callback_query(filters.regex(pattern="botinfo"))
 async def botinfo_cb(c: Client, cb: CallbackQuery):
+    buttons = await main_menu_buttons()
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
-        text=lang.BOT_INFO,
+        text=lang.BOT_INFO.format(Config.OWNER_USERNAME),
         message_id=cb.message.message_id,
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="Main Menu",
-                        callback_data="help"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="Close",
-                        callback_data="close"
-                    )
-                ]
-            ]
-        )
+        reply_markup=buttons
     )
 
 @Client.on_callback_query(filters.regex(pattern="close"))

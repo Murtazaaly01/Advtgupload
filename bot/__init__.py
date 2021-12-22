@@ -22,10 +22,13 @@ class Config(object):
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
     if BOT_USERNAME.startswith("@"):
         BOT_USERNAME = BOT_USERNAME[1:]
+    OWNER_USERNAME = os.environ.get("OWNER_USERNAME", "")
 
     GOOGLE_CHROME_BIN = os.environ.get("GOOGLE_CHROME_BIN", '/app/.apt/usr/bin/google-chrome')
     CHROMEDRIVER_PATH = os.environ.get("CHROMEDRIVER_PATH", '/app/.chromedriver/bin/chromedriver')
 
     BOT_LANGUAGE = os.environ.get("BOT_LANGUAGE", "EN")
+
+    DATABASE_URL = os.environ.get("DATABASE_URL", "")
 
 CMD = BOT_CMD
