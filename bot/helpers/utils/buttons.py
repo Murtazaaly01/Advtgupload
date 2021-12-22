@@ -63,8 +63,8 @@ async def main_menu_buttons():
     return InlineKeyboardMarkup(buttons)
 
 async def settings_buttons(video_type, photo_type):
-    video = video_type.upper
-    photo = photo_type.upper
+    video = video_type.upper() 
+    photo = photo_type.upper() 
 
     buttons = [
         [
