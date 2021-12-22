@@ -3,7 +3,7 @@ from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.utils.buttons import *
 from pyrogram.types.bots_and_keyboards import CallbackQuery
-from bot.helpers.database.database import fetch_media_details, change_video_type_db
+from bot.helpers.database.database import fetch_media_details, change_video_type_db, change_photo_type_db
 
 @Client.on_callback_query(filters.regex(pattern="helpmsg"))
 async def help_cb(c: Client, cb: CallbackQuery):
@@ -62,10 +62,10 @@ async def change_photo_type_cb(c: Client, cb: CallbackQuery):
     video_type, photo_type = await fetch_media_details(user_id)
     if photo_type == "photo":
         photo_type = "doc"
-        await change_video_type_db(user_id, photo_type)
+        await change_photo_type_db(user_id, photo_type)
     else:
         photo_type = "photo"
-        await change_video_type_db(user_id, photo_type)
+        await change_photo_type_db(user_id, photo_type)
 
     buttons = await settings_buttons(video_type, photo_type)
     await c.edit_message_text(
