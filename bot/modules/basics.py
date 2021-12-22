@@ -36,7 +36,7 @@ async def help(bot, update):
         reply_to_message_id=update.message_id
     )
 
-@Client.on_callback_query(filters.regex(pattern="help"))
+@Client.on_callback_query(filters.regex(pattern="helpmsg"))
 async def help_cb(c: Client, cb: CallbackQuery):
     buttons = await help_buttons()
     await c.edit_message_text(
@@ -71,7 +71,7 @@ async def close_cb(c: Client, cb: CallbackQuery):
         LOGGER.warning(f"Couldn't delete message in {cb.message.chat.id}")
         pass
 
-@Client.on_callback_query(filters.regex(pattern="upload_help"))
+@Client.on_callback_query(filters.regex(pattern="uploadhelp"))
 async def upload_files_help_cb(c: Client, cb: CallbackQuery):
     buttons = await upload_helper_buttons()
     await c.edit_message_text(
