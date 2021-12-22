@@ -5,7 +5,7 @@ async def start_buttons():
         [
             InlineKeyboardButton(
                 text="Help",
-                callback_data="help"
+                callback_data="helpmsg"
             )
         ],
         [
@@ -22,7 +22,7 @@ async def help_buttons():
         [
             InlineKeyboardButton(
                 text="Upload Files",
-                callback_data="upload_help"
+                callback_data="uploadhelp"
             )
         ],
         [
@@ -50,7 +50,7 @@ async def main_menu_buttons():
         [
             InlineKeyboardButton(
                 text="Main Menu",
-                callback_data="help"
+                callback_data="helpmsg"
             )
         ],
         [
@@ -63,8 +63,8 @@ async def main_menu_buttons():
     return InlineKeyboardMarkup(buttons)
 
 async def settings_buttons(video_type, photo_type):
-    video = str(video_type).upper
-    photo = str(photo_type).upper
+    video = video_type.upper
+    photo = photo_type.upper
 
     buttons = [
         [
