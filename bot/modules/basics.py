@@ -70,3 +70,13 @@ async def close_cb(c: Client, cb: CallbackQuery):
     except:
         LOGGER.warning(f"Couldn't delete message in {cb.message.chat.id}")
         pass
+
+@Client.on_callback_query(filters.regex(pattern="upload_help"))
+async def upload_files_help_cb(c: Client, cb: CallbackQuery):
+    buttons = await upload_helper_buttons()
+    await c.edit_message_text(
+        chat_id=cb.message.chat.id,
+        text=lang.UPLOAD_HELP.format(Config.BOT_USERNAME),
+        message_id=cb.message.message_id,
+        reply_markup=buttons
+    )

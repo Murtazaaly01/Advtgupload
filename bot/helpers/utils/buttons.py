@@ -22,7 +22,7 @@ async def help_buttons():
         [
             InlineKeyboardButton(
                 text="Upload Files",
-                callback_data="upload_files_help"
+                callback_data="upload_help"
             )
         ],
         [
@@ -36,12 +36,6 @@ async def help_buttons():
 
 async def upload_helper_buttons():
     buttons = [
-        [
-            InlineKeyboardButton(
-                text="Upload Index Folder",
-                callback_data="upload_folder_help"
-            )
-        ],
         [
             InlineKeyboardButton(
                 text="Close",

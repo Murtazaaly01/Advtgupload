@@ -26,5 +26,17 @@ Please Choose the Category for the help.
 
 Change your preffered options here from the buttons below.
 """
+    UPLOAD_HELP = """
+You can use the below commands to upload the files to TG.
+
+<code>/upload url</code> -> Uploads the file from the given url.
+
+<b>This upload command only supports :</b>
+Direct file links
+Index folder links (beta)
+
+Thumbnails & Media types can be modified in the settings.
+Open the settings by using <code>/settings@{}</code> command.
+"""
 
 
