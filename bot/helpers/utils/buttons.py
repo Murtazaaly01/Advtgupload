@@ -78,7 +78,7 @@ async def settings_buttons(video_type, photo_type):
                 text=f"Photo Type - {photo}",
                 callback_data="change_photo_type"
             )
-        ]
+        ],
         [
             InlineKeyboardButton(
                 text="Close",
