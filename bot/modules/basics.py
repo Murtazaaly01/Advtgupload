@@ -2,6 +2,7 @@ from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.utils.buttons import *
+from bot.helpers.database.database import check_user
 from pyrogram.types.bots_and_keyboards import CallbackQuery
 
 @Client.on_message(filters.command([CMD.START, f"{CMD.START}@{Config.BOT_USERNAME}"]))
@@ -11,6 +12,7 @@ async def start(bot, update):
             "Bot only usable in the Authorized Chat"
         )
         return
+    await check_user(update.from_user.id)
     buttons = await start_buttons()
     await bot.send_message(
         chat_id=update.chat.id,
@@ -26,6 +28,7 @@ async def help(bot, update):
             "Bot only usable in the Authorized Chat"
         )
         return
+    await check_user(update.from_user.id)
     await bot.send_message(
         chat_id=update.chat.id,
         text=lang.HELP_TEXT.format(update.from_user.first_name),

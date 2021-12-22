@@ -21,5 +21,10 @@ Please Choose the Category for the help.
 <b>Server :</b> <code>Heroku</code>
 <b>Database :</b> <code>NoSQL - MongoDB</code>
 """
+    SETTINGS_TEXT = """
+<b>Hello {} Sir</b>,
+
+Change your preffered options here from the buttons below.
+"""
 
 
