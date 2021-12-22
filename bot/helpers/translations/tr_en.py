@@ -39,4 +39,11 @@ Thumbnails & Media types can be modified in the settings.
 Open the settings by using <code>/settings@{}</code> command.
 """
 
+    ERR_USAGE = "Use <code>/help</code> to see how to use me."
+
+    INIT_INDEX_LINK = "<b>Index Link Found</b>\nTrying to fetch child links..."
+    INIT_DOWNLOAD_FILE = "Trying to download file..."
+    INIT_UPLOAD_FILE = "Trying to upload file..."
+
+
 

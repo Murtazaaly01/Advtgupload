@@ -17,7 +17,7 @@ class Config(object):
     API_HASH = os.environ.get("API_HASH")
 
     AUTH_CHAT = set(int(x) for x in os.environ.get("AUTH_CHAT", "").split())
-    DOWNLOAD_LOCATION = "./DOWNLOADS"
+    DOWNLOAD_LOCATION = "./bot/DOWNLOADS"
 
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
     if BOT_USERNAME.startswith("@"):

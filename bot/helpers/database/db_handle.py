@@ -1,4 +1,3 @@
-import datetime
 import motor.motor_asyncio
 from bot import Config
 
