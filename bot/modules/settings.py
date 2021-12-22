@@ -2,7 +2,7 @@ from bot import CMD, Config
 from pyrogram import Client, filters
 from bot.helpers.utils.buttons import *
 from bot.helpers.translations import lang
-from bot.helpers.database.database import check_user, fetch__media_details
+from bot.helpers.database.database import check_user, fetch_media_details
 
 @Client.on_message(filters.command([CMD.SETTINGS, f"{CMD.SETTINGS}@{Config.BOT_USERNAME}"]))
 async def settings(bot, update):
