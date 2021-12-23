@@ -37,9 +37,9 @@ async def progress_for_pyrogram(
                     tmp
                 )
             )
-            await asyncio.sleep(6)
         except:
             pass
+        await asyncio.sleep(6)
 
 def humanbytes(size):
     if not size:
@@ -80,5 +80,4 @@ async def progress_for_aiodl(r):
     msg += "<b> Speed : <code>{0}</code>\n│\n├</b>".format(speed)
     msg += "<b> Done : <code>{}</code>\n│\n╰─</b>".format(downloaded)
     msg += "<b> Size : <code>{}</code></b>".format(size)
-    await asyncio.sleep(6)
     return msg

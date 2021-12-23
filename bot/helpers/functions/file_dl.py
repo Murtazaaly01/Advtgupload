@@ -1,5 +1,6 @@
 import os
 import time
+import asyncio
 from pyaiodl import Downloader
 from bot import Config, LOGGER
 from bot.helpers.translations import lang
@@ -26,7 +27,8 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
             pass
         except Exception as e:
             LOGGER.error(e)
-            
+        await asyncio.sleep(6)
+    await asyncio.sleep(1)
     if filename != "Unknown":
         if filename.endswith((".mkv", ".mp4", ".flv", ".avi", ".webm")) and s_vid:
             await bot.send_video(
