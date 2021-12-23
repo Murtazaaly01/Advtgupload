@@ -25,6 +25,7 @@ async def upload_files(bot, update):
             text=lang.INIT_DOWNLOAD_FILE,
             reply_to_message_id=update.message_id
         )
+        msg_id = update.message_id
         video, photo = await fetch_media_details(update.from_user.id)
         if video == "video":
             s_vid = True
@@ -35,6 +36,6 @@ async def upload_files(bot, update):
         else:
             s_pht = False
 
-        await file_dl(bot, update, init_msg, link, s_vid, s_pht)
+        await file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht)
 
         
