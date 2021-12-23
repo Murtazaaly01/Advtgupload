@@ -37,5 +37,9 @@ async def upload_files(bot, update):
             s_pht = False
 
         await file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht)
+        await bot.delete_messages(
+            chat_id=update.chat.id,
+            message_ids=init_msg.message_id
+        )
 
         

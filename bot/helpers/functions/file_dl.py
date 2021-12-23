@@ -1,3 +1,4 @@
+import os
 import time
 from pyaiodl import Downloader
 from bot import Config, LOGGER
@@ -67,3 +68,4 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                     start_time
                 )
             )
+        os.remove(Config.DOWNLOAD_LOCATION + "/" + filename)
