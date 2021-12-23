@@ -4,3 +4,4 @@ motor
 dnspython
 pyaiodl
 hachoir
+python-ffmpeg
