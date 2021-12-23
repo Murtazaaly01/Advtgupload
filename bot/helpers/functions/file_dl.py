@@ -1,5 +1,4 @@
 import time
-import asyncio
 from pyaiodl import Downloader
 from bot import Config, LOGGER
 from bot.helpers.translations import lang
@@ -7,7 +6,7 @@ from bot.helpers.functions.display_progress import progress_for_aiodl, progress_
 from pyrogram.errors import MessageNotModified
 
 start_time = time.time()
-dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=128000)
+dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=Config.CHUNK_SIZE*1000)
 
 async def file_dl(bot, update, msg, link, s_vid, s_pht):
     uuid = await dl.download(link)
@@ -30,20 +29,20 @@ async def file_dl(bot, update, msg, link, s_vid, s_pht):
                 caption=filename,
                 supports_streaming=s_vid,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=update.reply_to_message.message_id,
+                reply_to_message_id=msg.reply_to_message.message_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     msg,
                     start_time
                 )
             )
-        elif filename.endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")):
+        elif filename.endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")) and s_pht == "photo":
             bot.send_photo(
                 chat_id=update.chat.id,
                 photo=Config.DOWNLOAD_LOCATION + "/" + filename,
                 caption=filename,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=update.reply_to_message.message_id,
+                reply_to_message_id=msg.reply_to_message.message_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     msg,
@@ -56,7 +55,7 @@ async def file_dl(bot, update, msg, link, s_vid, s_pht):
                 document=Config.DOWNLOAD_LOCATION + "/" + filename,
                 caption=filename,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=update.reply_to_message.message_id,
+                reply_to_message_id=msg.reply_to_message.message_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     msg,
