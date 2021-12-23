@@ -1,3 +1,4 @@
+import sys
 import ffmpeg
 from bot import LOGGER, Config
 
@@ -16,4 +17,4 @@ async def generate_thumbnail(file, msg_id):
             .run(capture_stdout=True, capture_stderr=True)
         )
     except ffmpeg.Error as e:
-        LOGGER.error(e.stderr.decode('utf-8'))
+        LOGGER.error(e.stderr.decode('utf-8'), file=sys.stderr)
