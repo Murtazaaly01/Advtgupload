@@ -49,7 +49,6 @@ class Config_NON_ENV(object):
     DATABASE_URL = ""
     CHUNK_SIZE = 128
 
-CMD = BOT_CMD
 if os.environ.get("ENV"):
     Config = Config_ENV
 else:

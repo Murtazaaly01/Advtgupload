@@ -20,7 +20,7 @@ async def upload_files(bot, update):
         )
         # ADD FOLDER FETCH HERE TODO
     else:
-        msg = await bot.send_message(
+        init_msg = await bot.send_message(
             chat_id=update.chat.id,
             text=lang.INIT_DOWNLOAD_FILE,
             reply_to_message_id=update.message_id
@@ -35,6 +35,6 @@ async def upload_files(bot, update):
         else:
             s_pht = False
 
-        await file_dl(bot, update, msg, link, s_vid, s_pht)
+        await file_dl(bot, update, init_msg, link, s_vid, s_pht)
 
         

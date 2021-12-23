@@ -44,6 +44,7 @@ Open the settings by using <code>/settings@{}</code> command.
     INIT_INDEX_LINK = "<b>Index Link Found</b>\nTrying to fetch child links..."
     INIT_DOWNLOAD_FILE = "Trying to download file..."
     INIT_UPLOAD_FILE = "Trying to upload file..."
+    START_DOWNLOAD = "Downloading File......."
 
 
 

@@ -77,9 +77,8 @@ async def progress_for_aiodl(r):
     msg = "Filename :\n<code>{}</code>\n\n".format(file_name)
     msg += "<b>╭─ Progress\n│\n├</b>"
     msg += "  {0}<b>\n│\n├</b>".format(progress_bar)
-    msg += "<b>Speed : {0}\n│\n├</b>".format(speed)
-    msg += "<b>Done : <code>{}</code>\n│\n╰─</b>".format(downloaded)
-    msg += "<b>Size : <code>{}</code></b>".format(size)
-
+    msg += "<b> Speed : <code>{0}</code>\n│\n├</b>".format(speed)
+    msg += "<b> Done : <code>{}</code>\n│\n╰─</b>".format(downloaded)
+    msg += "<b> Size : <code>{}</code></b>".format(size)
     await asyncio.sleep(6)
     return msg
