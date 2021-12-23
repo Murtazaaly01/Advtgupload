@@ -1,3 +1,4 @@
+import asyncio
 from bot import Config, LOGGER, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
@@ -35,7 +36,7 @@ async def upload_files(bot, update):
             s_pht = True
         else:
             s_pht = False
-
+        asyncio.sleep(3)
         await file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht)
         await bot.delete_messages(
             chat_id=update.chat.id,

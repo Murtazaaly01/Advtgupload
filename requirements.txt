@@ -3,3 +3,4 @@ tgcrypto
 motor
 dnspython
 pyaiodl
+hachoir
