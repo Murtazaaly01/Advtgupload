@@ -7,8 +7,10 @@ from bot import Config, LOGGER
 from hachoir.parser import createParser
 from bot.helpers.translations import lang
 from hachoir.metadata import extractMetadata
-from bot.helpers.functions.display_progress import progress_for_aiodl, progress_for_pyrogram
 from pyrogram.errors import MessageNotModified
+from bot.helpers.functions.gen_thumb import generate_thumbnail
+from bot.helpers.functions.display_progress import progress_for_aiodl, progress_for_pyrogram
+
 
 start_time = time.time()
 dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=Config.CHUNK_SIZE*1000)
@@ -31,7 +33,14 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
         except Exception as e:
             LOGGER.error(e)
         await asyncio.sleep(6)
+
     await asyncio.sleep(1)
+    try:
+        await generate_thumbnail(filename, msg_id)
+        thumb = Config.DOWNLOAD_LOCATION + f"{msg_id}-Thumbnail.jpg"
+    except Exception as e:
+        LOGGER.error(e)
+        pass
     file_path = os.path.join(Config.DOWNLOAD_LOCATION, filename)
     metadata = extractMetadata(createParser(file_path))
     if filename != "Unknown":
@@ -47,6 +56,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                 width=width,
                 height=height,
                 caption=filename,
+                thumb=thumb,
                 supports_streaming=True,
                 disable_notification=True,
                 progress=progress_for_pyrogram,
