@@ -27,12 +27,12 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
             LOGGER.error(e)
             
     if filename != "Unknown":
-        if filename.endswith((".mkv", ".mp4", ".flv", ".avi", ".webm")):
+        if filename.endswith((".mkv", ".mp4", ".flv", ".avi", ".webm")) and s_vid:
             await bot.send_video(
                 chat_id=update.chat.id,
                 video=Config.DOWNLOAD_LOCATION + "/" + filename,
                 caption=filename,
-                supports_streaming=s_vid,
+                supports_streaming=True,
                 progress=progress_for_pyrogram,
                 reply_to_message_id=msg_id,
                 progress_args=(
@@ -41,7 +41,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                     start_time
                 )
             )
-        elif filename.endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")) and s_pht == "photo":
+        elif filename.endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")) and s_pht:
             await bot.send_photo(
                 chat_id=update.chat.id,
                 photo=Config.DOWNLOAD_LOCATION + "/" + filename,
