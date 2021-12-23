@@ -28,7 +28,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
             
     if filename != "Unknown":
         if filename.endswith((".mkv", ".mp4", ".flv", ".avi", ".webm")):
-            bot.send_video(
+            await bot.send_video(
                 chat_id=update.chat.id,
                 video=Config.DOWNLOAD_LOCATION + "/" + filename,
                 caption=filename,
@@ -42,7 +42,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                 )
             )
         elif filename.endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")) and s_pht == "photo":
-            bot.send_photo(
+            await bot.send_photo(
                 chat_id=update.chat.id,
                 photo=Config.DOWNLOAD_LOCATION + "/" + filename,
                 caption=filename,
@@ -55,7 +55,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                 )
             )
         else:
-            bot.send_document(
+            await bot.send_document(
                 chat_id=update.chat.id,
                 document=Config.DOWNLOAD_LOCATION + "/" + filename,
                 caption=filename,
