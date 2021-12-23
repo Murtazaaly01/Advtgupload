@@ -1,4 +1,3 @@
-from logging import disable
 import os
 import time
 import asyncio
@@ -38,11 +37,12 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
     file_path = os.path.join(Config.DOWNLOAD_LOCATION, filename)
     metadata = extractMetadata(createParser(file_path))
     try:
-        generate_thumbnail(file_path, msg_id)
+        await generate_thumbnail(file_path, msg_id)
         thumb = Config.DOWNLOAD_LOCATION + f"{msg_id}-Thumbnail.jpg"
     except Exception as e:
         LOGGER.error(e)
-        pass
+        thumb = None
+        
     if filename != "Unknown":
         if filename.endswith((".mkv", ".mp4", ".flv", ".avi", ".webm")) and s_vid:
             if metadata.has("duration"):
