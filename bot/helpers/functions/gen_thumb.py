@@ -2,14 +2,14 @@ import sys
 import ffmpeg
 from bot import LOGGER, Config
 
-async def generate_thumbnail(file, msg_id):
+def generate_thumbnail(file, msg_id):
     thumb_name = Config.DOWNLOAD_LOCATION + f"{msg_id}-Thumbnail.jpg"
-    probe = await ffmpeg.probe(file)
+    probe = ffmpeg.probe(file)
     time = float(probe['streams'][0]['duration']) // 2
     width = probe['streams'][0]['width']
     try:
         (
-            await ffmpeg
+            ffmpeg
             .input(file, ss=time)
             .filter('scale', width, -1)
             .output(thumb_name, vframes=1)

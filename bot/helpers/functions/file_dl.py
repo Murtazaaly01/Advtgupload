@@ -36,7 +36,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
 
     await asyncio.sleep(1)
     try:
-        await generate_thumbnail(filename, msg_id)
+        generate_thumbnail(filename, msg_id)
         thumb = Config.DOWNLOAD_LOCATION + f"{msg_id}-Thumbnail.jpg"
     except Exception as e:
         LOGGER.error(e)
