@@ -6,8 +6,8 @@ async def generate_thumbnail(file, msg_id):
     probe = await ffmpeg.probe(file)
     time = float(probe['streams'][0]['duration']) // 2
     width = probe['streams'][0]['width']
-    await (
-        ffmpeg
+    (
+        await ffmpeg
         .input(file, ss=time)
         .filter('scale', width, -1)
         .output(thumb_name, vframes=1)
