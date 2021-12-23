@@ -1,9 +1,9 @@
 import ffmpeg
 from bot import Config
 
-async def generate_thumbnail(file, msg_id):
+def generate_thumbnail(file, msg_id):
     thumb_name = f"{Config.DOWNLOAD_LOCATION}/{msg_id}-Thumbnail.jpg"
-    probe = await ffmpeg.probe(file)
+    probe = ffmpeg.probe(file)
     time = float(probe['streams'][0]['duration']) // 2
     width = probe['streams'][0]['width']
     (
