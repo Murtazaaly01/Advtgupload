@@ -7,7 +7,7 @@ async def generate_thumbnail(file, msg_id):
     thumb_name = f"{file}.jpg"
     metadata = extractMetadata(createParser(file))
     if metadata.has("duration"):
-        duration = metadata.get("duration") / 2
+        duration = str(metadata.get("duration") / 2)
     else:
         duration = "00:00:00.000"
         
