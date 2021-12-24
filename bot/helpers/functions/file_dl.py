@@ -10,6 +10,9 @@ from pyrogram.errors import MessageNotModified
 from bot.helpers.functions.gen_thumb import generate_thumbnail
 from bot.helpers.functions.display_progress import progress_for_aiodl, progress_for_pyrogram
 
+video_files = (".mkv", ".mp4", ".flv", ".avi", ".webm")
+audio_files = (".mp3", ".m4a", ".wav", ".flac", ".ogg", ".opus")
+photo_files = (".jpg", ".jpeg", ".png", ".bmp", ".gif")
 
 start_time = time.time()
 dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=Config.CHUNK_SIZE*1000)
@@ -21,29 +24,31 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
         filename = status['filename']
         detail_msg = await progress_for_aiodl(status)
         try:
-            await bot.edit_message_text(
-                chat_id=update.chat.id,
-                text=detail_msg,
-                message_id=init_msg.message_id,
-                parse_mode="html"
-            )
+            if filename != "Unknown":
+                await bot.edit_message_text(
+                    chat_id=update.chat.id,
+                    text=detail_msg,
+                    message_id=init_msg.message_id,
+                    parse_mode="html"
+                )
         except MessageNotModified:
             pass
         except Exception as e:
             LOGGER.error(e)
-        await asyncio.sleep(6)
+        if filename != "Unknown":
+            await asyncio.sleep(6)
 
     await asyncio.sleep(1)
     file_path = os.path.join(Config.DOWNLOAD_LOCATION, filename)
     metadata = extractMetadata(createParser(file_path))
-    try:
-        thumb = await generate_thumbnail(file_path, msg_id)
-    except Exception as e:
-        LOGGER.error(e)
-        thumb = None
-        
+
     if filename != "Unknown":
-        if filename.endswith((".mkv", ".mp4", ".flv", ".avi", ".webm")) and s_vid:
+        if filename.endswith(video_files) and s_vid:
+            try:
+                thumb = await generate_thumbnail(file_path, msg_id)
+            except Exception as e:
+                LOGGER.error(e)
+                thumb = None
             if metadata.has("duration"):
                 duration = metadata.get("duration").seconds
             width = 1280
