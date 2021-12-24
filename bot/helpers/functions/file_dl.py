@@ -15,7 +15,7 @@ audio_files = (".mp3", ".m4a", ".wav", ".flac", ".ogg", ".opus")
 photo_files = (".jpg", ".jpeg", ".png", ".bmp", ".gif")
 
 start_time = time.time()
-dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=Config.CHUNK_SIZE*1000)
+dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=10000)
 
 async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
     uuid = await dl.download(link)
