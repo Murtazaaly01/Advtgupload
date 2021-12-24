@@ -24,13 +24,12 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
         filename = status['filename']
         detail_msg = await progress_for_aiodl(status)
         try:
-            if filename != "Unknown":
-                await bot.edit_message_text(
-                    chat_id=update.chat.id,
-                    text=detail_msg,
-                    message_id=init_msg.message_id,
-                    parse_mode="html"
-                )
+            await bot.edit_message_text(
+                chat_id=update.chat.id,
+                text=detail_msg,
+                message_id=init_msg.message_id,
+                parse_mode="html"
+            )
         except MessageNotModified:
             pass
         except Exception as e:
@@ -71,7 +70,7 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                     start_time
                 )
             )
-        elif filename.endswith((".jpg", ".jpeg", ".png", ".bmp", ".gif")) and s_pht:
+        elif filename.endswith(photo_files) and s_pht:
             await bot.send_photo(
                 chat_id=update.chat.id,
                 photo=file_path,
