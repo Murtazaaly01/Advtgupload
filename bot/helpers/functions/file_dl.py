@@ -34,11 +34,12 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
             pass
         except Exception as e:
             LOGGER.error(e)
-        if filename != "Unknown":
-            await asyncio.sleep(6)
+        #if filename != "Unknown":
+        await asyncio.sleep(6)
 
     await asyncio.sleep(1)
-    file_path = os.path.join(Config.DOWNLOAD_LOCATION, filename)
+    file_path = status['download_path']
+    #file_path = os.path.join(Config.DOWNLOAD_LOCATION, filename)
     metadata = extractMetadata(createParser(file_path))
 
     if filename != "Unknown":
