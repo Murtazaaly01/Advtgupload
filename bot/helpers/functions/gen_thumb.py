@@ -1,16 +1,37 @@
-import ffmpeg
-from bot import Config
+import os
+import asyncio
+from hachoir.parser import createParser
+from hachoir.metadata import extractMetadata
 
-def generate_thumbnail(file, msg_id):
-    thumb_name = f"{Config.DOWNLOAD_LOCATION}/{msg_id}-Thumbnail.jpg"
-    probe = ffmpeg.probe(file)
-    time = float(probe['streams'][0]['duration']) // 2
-    width = probe['streams'][0]['width']
-    (
-        ffmpeg
-        .input(file, ss=time)
-        .filter('scale', width, -1)
-        .output(thumb_name, vframes=1)
-        .overwrite_output()
-        .run(capture_stdout=True, capture_stderr=True)
+async def generate_thumbnail(file, msg_id):
+    thumb_name = f"{file}.jpg"
+    metadata = extractMetadata(createParser(file))
+    if metadata.has("duration"):
+        duration = metadata.get("duration") / 2
+    else:
+        duration = "00:00:00.000"
+        
+    ss_command = [
+        "ffmpeg",
+        "-ss",
+        duration,
+        "-i",
+        file,
+        "-vframes",
+        "1",
+        thumb_name
+    ]
+    process = await asyncio.create_subprocess_exec(
+        *ss_command,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
     )
+    stdout, stderr = await process.communicate()
+    e_response = stderr.decode().strip()
+    t_response = stdout.decode().strip()
+    if os.path.lexists(thumb_name):
+        return thumb_name
+    else:
+        return None
+
+    
