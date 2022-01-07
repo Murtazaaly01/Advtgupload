@@ -1,6 +1,5 @@
 import os
 import logging
-from bot.helpers.utils.bot_cmd import BOT_CMD
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -8,8 +7,6 @@ logging.basicConfig(
     )
 LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
-
-CMD = BOT_CMD
 
 class Config_ENV(object):
     TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")
@@ -53,3 +50,10 @@ if os.environ.get("ENV"):
     Config = Config_ENV
 else:
     Config = Config_NON_ENV
+
+bot = Config.BOT_USERNAME
+class CMD(object):
+    START = ["start", f"start@{bot}"]
+    HELP = ["help", f"help@{bot}"]
+    SETTINGS = ["settings", f"settings@{bot}"]
+    UPLOAD = ["upload", f"upload@{bot}"]
