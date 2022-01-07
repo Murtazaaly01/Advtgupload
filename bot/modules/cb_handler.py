@@ -11,12 +11,11 @@ async def help_cb(c: Client, cb: CallbackQuery):
     if int(user_id) != cb.from_user.id:
         await cb.answer(lang.NOT_AUTH_CB)
         return
-    buttons = await help_buttons()
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.HELP_TEXT.format(cb.message.reply_to_message.from_user.first_name),
         message_id=cb.message.message_id,
-        reply_markup=buttons
+        reply_markup=await help_buttons(user_id),
     )
 
 @Client.on_callback_query(filters.regex(pattern="botinfo"))
@@ -25,12 +24,11 @@ async def botinfo_cb(c: Client, cb: CallbackQuery):
     if int(user_id) != cb.from_user.id:
         await cb.answer(lang.NOT_AUTH_CB)
         return
-    buttons = await main_menu_buttons()
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.BOT_INFO.format(Config.OWNER_USERNAME),
         message_id=cb.message.message_id,
-        reply_markup=buttons
+        reply_markup=await main_menu_buttons(user_id)
     )
 
 @Client.on_callback_query(filters.regex(pattern="uploadhelp"))
@@ -39,12 +37,11 @@ async def upload_files_help_cb(c: Client, cb: CallbackQuery):
     if int(user_id) != cb.from_user.id:
         await cb.answer(lang.NOT_AUTH_CB)
         return
-    buttons = await upload_helper_buttons()
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.UPLOAD_HELP.format(Config.BOT_USERNAME),
         message_id=cb.message.message_id,
-        reply_markup=buttons
+        reply_markup=await upload_helper_buttons(user_id)
     )
 
 @Client.on_callback_query(filters.regex(pattern="changevideotype"))
@@ -62,13 +59,11 @@ async def change_video_type_cb(c: Client, cb: CallbackQuery):
     else:
         video_type = "video"
         await change_video_type_db(user_id, video_type)
-
-    buttons = await settings_buttons(video_type, photo_type)
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.SETTINGS_TEXT.format(user_name) + "\n\nChanged Video Type to " + video_type,
         message_id=cb.message.message_id,
-        reply_markup=buttons
+        reply_markup=await settings_buttons(video_type, photo_type, user_id)
     )
 
 @Client.on_callback_query(filters.regex(pattern="changephototype"))
@@ -86,13 +81,11 @@ async def change_photo_type_cb(c: Client, cb: CallbackQuery):
     else:
         photo_type = "photo"
         await change_photo_type_db(user_id, photo_type)
-
-    buttons = await settings_buttons(video_type, photo_type)
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.SETTINGS_TEXT.format(user_name) + "\n\nChanged Photo Type to " + photo_type,
         message_id=cb.message.message_id,
-        reply_markup=buttons
+        reply_markup=await settings_buttons(video_type, photo_type, user_id)
     )
 
 @Client.on_callback_query(filters.regex(pattern="close"))
