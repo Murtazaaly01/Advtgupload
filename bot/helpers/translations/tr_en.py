@@ -41,10 +41,11 @@ Open the settings by using <code>/settings@{}</code> command.
 
     ERR_USAGE = "Use <code>/help</code> to see how to use me."
 
-    INIT_INDEX_LINK = "<b>Index Link Found</b>\nTrying to fetch child links..."
+    INIT_INDEX_LINK = "<b>Index Links Found</b>\nTrying to fetch child links..."
     INIT_DOWNLOAD_FILE = "Trying to download file..."
     INIT_UPLOAD_FILE = "Trying to upload file..."
     START_DOWNLOAD = "Downloading File......."
 
+    NOT_AUTH_CB = "Why you clicking others buttons? 🤨"
 
 
