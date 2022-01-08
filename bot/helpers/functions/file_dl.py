@@ -35,9 +35,9 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
             pass
         except Exception as e:
             LOGGER.error(e)
+        file_path = status['download_path']
         await asyncio.sleep(6)
 
-    file_path = status['download_path']
     LOGGER.info(f"Downloaded file to {file_path}")
     if filename != "Unknown":
         s_vid, s_pht = await checkUserSet(update.from_user.id)
