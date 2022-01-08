@@ -16,7 +16,7 @@ start_time = time.time()
 async def pyro_upload(bot, update, file_path, filename, s_vid,\
     s_pht, reply_to_id, init_msg):
 
-    if filename.endswith(video_files):
+    if filename.endswith(video_files) and s_vid:
         metadata = extractMetadata(createParser(file_path))
         try:
             thumb = await generate_thumbnail(file_path)
@@ -35,7 +35,7 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
             height=height,
             caption=filename,
             thumb=thumb,
-            supports_streaming=s_vid,
+            supports_streaming=True,
             disable_notification=True,
             progress=progress_for_pyrogram,
             reply_to_message_id=reply_to_id,
