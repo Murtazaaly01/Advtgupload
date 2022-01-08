@@ -38,6 +38,7 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
         await asyncio.sleep(6)
 
     file_path = status['download_path']
+    LOGGER.info(f"Downloaded file to {file_path}")
     if filename != "Unknown":
         s_vid, s_pht = await checkUserSet(update.from_user.id)
         if filename.endswith(video_files):
@@ -69,35 +70,20 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
                     start_time
                 )
             )
-        elif filename.endswith(photo_files):
-            if s_pht:
-                await bot.send_photo(
-                    chat_id=update.chat.id,
-                    photo=file_path,
-                    caption=filename,
-                    progress=progress_for_pyrogram,
-                    disable_notification=True,
-                    reply_to_message_id=reply_to_id,
-                    progress_args=(
-                        lang.INIT_UPLOAD_FILE,
-                        init_msg,
-                        start_time
-                    )
+        elif filename.endswith(photo_files) and s_pht:
+            await bot.send_photo(
+                chat_id=update.chat.id,
+                photo=file_path,
+                caption=filename,
+                progress=progress_for_pyrogram,
+                disable_notification=True,
+                reply_to_message_id=reply_to_id,
+                progress_args=(
+                    lang.INIT_UPLOAD_FILE,
+                    init_msg,
+                    start_time
                 )
-            else:
-                await bot.send_document(
-                    chat_id=update.chat.id,
-                    document=file_path,
-                    caption=filename,
-                    disable_notification=True,
-                    progress=progress_for_pyrogram,
-                    reply_to_message_id=reply_to_id,
-                    progress_args=(
-                        lang.INIT_UPLOAD_FILE,
-                        init_msg,
-                        start_time
-                    )
-                )
+            )
         else:
             await bot.send_document(
                 chat_id=update.chat.id,
