@@ -2,9 +2,12 @@ from bot import CMD, LOGGER, Config
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.functions.file_dl import file_dl
+from bot.helpers.database.database import check_user
 
 @Client.on_message(filters.command(CMD.UPLOAD))
 async def upload(bot, update):
+    user_id = update.from_user.id
+    await check_user(user_id)
     reply_to_id = update.message_id
     try:
         link = update.text.split(" ", maxsplit=1)[1]
