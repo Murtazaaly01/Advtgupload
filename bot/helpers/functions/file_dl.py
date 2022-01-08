@@ -1,4 +1,3 @@
-import time
 import asyncio
 from pyaiodl import Downloader
 from bot import Config, LOGGER
@@ -54,6 +53,7 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
         )
     except:
         pass
+    await asyncio.sleep(3)
 
 async def checkUserSet(user_id):
     video, photo = await fetch_media_details(user_id)
