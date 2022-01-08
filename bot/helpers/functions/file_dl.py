@@ -48,9 +48,9 @@ async def checkUserSet(user_id):
     if video == "video":
         s_vid = True
     else:
-        s_vid = False
+        s_vid = None
     if photo == "photo":
         s_pht = True
     else:
-        s_pht = False
+        s_pht = None
     return s_vid, s_pht
