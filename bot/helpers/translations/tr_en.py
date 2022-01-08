@@ -45,7 +45,7 @@ Open the settings by using <code>/settings@{}</code> command.
     INIT_DOWNLOAD_FILE = "Trying to download file..."
     INIT_UPLOAD_FILE = "Trying to upload file..."
     START_DOWNLOAD = "Downloading File......."
+    UPLOAD_SUCCESS = "File Uploaded Successfully."
 
     NOT_AUTH_CB = "Why you clicking others buttons? 🤨"
-
 

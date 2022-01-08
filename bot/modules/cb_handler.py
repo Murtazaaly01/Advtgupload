@@ -83,7 +83,7 @@ async def change_photo_type_cb(c: Client, cb: CallbackQuery):
         await change_photo_type_db(user_id, photo_type)
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
-        text=lang.SETTINGS_TEXT.format(user_name) + "\n\nChanged Photo Type to " + photo_type,
+        text=lang.SETTINGS_TEXT.format(user_name) + "\nChanged Photo Type to " + photo_type,
         message_id=cb.message.message_id,
         reply_markup=await settings_buttons(video_type, photo_type, user_id)
     )

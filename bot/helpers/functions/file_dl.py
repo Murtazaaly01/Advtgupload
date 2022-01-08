@@ -8,6 +8,7 @@ from bot.helpers.translations import lang
 from hachoir.metadata import extractMetadata
 from pyrogram.errors import MessageNotModified
 from bot.helpers.functions.gen_thumb import generate_thumbnail
+from bot.helpers.database.database import fetch_media_details
 from bot.helpers.functions.display_progress import progress_for_aiodl, progress_for_pyrogram
 
 video_files = (".mkv", ".mp4", ".flv", ".avi", ".webm")
@@ -15,9 +16,9 @@ audio_files = (".mp3", ".m4a", ".wav", ".flac", ".ogg", ".opus")
 photo_files = (".jpg", ".jpeg", ".png", ".bmp", ".gif")
 
 start_time = time.time()
-dl = Downloader(download_path=Config.DOWNLOAD_LOCATION, chunk_size=10000)
+dl = Downloader(download_path=Config.DOWNLOAD_LOCATION)
 
-async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
+async def file_dl(bot, update, link, init_msg):
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
         status = await dl.status(uuid)
@@ -34,18 +35,15 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
             pass
         except Exception as e:
             LOGGER.error(e)
-        #if filename != "Unknown":
         await asyncio.sleep(6)
 
-    await asyncio.sleep(1)
     file_path = status['download_path']
-    #file_path = os.path.join(Config.DOWNLOAD_LOCATION, filename)
-    metadata = extractMetadata(createParser(file_path))
-
     if filename != "Unknown":
-        if filename.endswith(video_files) and s_vid:
+        s_vid, s_pht = await checkUserSet(update.from_user.id)
+        if filename.endswith(video_files):
+            metadata = extractMetadata(createParser(file_path))
             try:
-                thumb = await generate_thumbnail(file_path, msg_id)
+                thumb = await generate_thumbnail(file_path)
             except Exception as e:
                 LOGGER.error(e)
                 thumb = None
@@ -61,30 +59,45 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                 height=height,
                 caption=filename,
                 thumb=thumb,
-                supports_streaming=True,
+                supports_streaming=s_vid,
                 disable_notification=True,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=msg_id,
+                reply_to_message_id=init_msg.reply_to_message.message_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     init_msg,
                     start_time
                 )
             )
-        elif filename.endswith(photo_files) and s_pht:
-            await bot.send_photo(
-                chat_id=update.chat.id,
-                photo=file_path,
-                caption=filename,
-                progress=progress_for_pyrogram,
-                disable_notification=True,
-                reply_to_message_id=msg_id,
-                progress_args=(
-                    lang.INIT_UPLOAD_FILE,
-                    init_msg,
-                    start_time
+        elif filename.endswith(photo_files):
+            if s_pht:
+                await bot.send_photo(
+                    chat_id=update.chat.id,
+                    photo=file_path,
+                    caption=filename,
+                    progress=progress_for_pyrogram,
+                    disable_notification=True,
+                    reply_to_message_id=init_msg.reply_to_message.message_id,
+                    progress_args=(
+                        lang.INIT_UPLOAD_FILE,
+                        init_msg,
+                        start_time
+                    )
                 )
-            )
+            else:
+                await bot.send_document(
+                    chat_id=update.chat.id,
+                    document=file_path,
+                    caption=filename,
+                    disable_notification=True,
+                    progress=progress_for_pyrogram,
+                    reply_to_message_id=init_msg.reply_to_message.message_id,
+                    progress_args=(
+                        lang.INIT_UPLOAD_FILE,
+                        init_msg,
+                        start_time
+                    )
+                )
         else:
             await bot.send_document(
                 chat_id=update.chat.id,
@@ -92,11 +105,27 @@ async def file_dl(bot, update, init_msg, msg_id, link, s_vid, s_pht):
                 caption=filename,
                 disable_notification=True,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=msg_id,
+                reply_to_message_id=init_msg.reply_to_message.message_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     init_msg,
                     start_time
                 )
             )
-        os.remove(Config.DOWNLOAD_LOCATION + "/" + filename)
+        os.remove(file_path)
+        try:
+            os.remove(thumb)
+        except:
+            pass
+
+async def checkUserSet(user_id):
+    video, photo = await fetch_media_details(user_id)
+    if video == "video":
+        s_vid = True
+    else:
+        s_vid = False
+    if photo == "photo":
+        s_pht = True
+    else:
+        s_pht = False
+    return s_vid, s_pht

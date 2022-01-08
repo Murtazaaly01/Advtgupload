@@ -3,7 +3,7 @@ import asyncio
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
 
-async def generate_thumbnail(file, msg_id):
+async def generate_thumbnail(file):
     thumb_name = f"{file}.jpg"
     metadata = extractMetadata(createParser(file))
     if metadata.has("duration"):
