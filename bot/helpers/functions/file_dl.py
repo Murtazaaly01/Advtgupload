@@ -42,18 +42,6 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
             text=lang.COMMON_ERR,
             reply_to_message_id=reply_to_id
         )
-    await bot.delete_messages(
-        chat_id=update.chat.id,
-        message_ids=init_msg.message_id
-    )
-    try:
-        await bot.delete_messages(
-            chat_id=update.chat.id,
-            message_ids=status_msg.message_id
-        )
-    except:
-        pass
-    await asyncio.sleep(3)
 
 async def checkUserSet(user_id):
     video, photo = await fetch_media_details(user_id)

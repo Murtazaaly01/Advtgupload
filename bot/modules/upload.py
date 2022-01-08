@@ -28,3 +28,7 @@ async def upload(bot, update):
         text=lang.UPLOAD_SUCCESS,
         reply_to_message_id=init_msg.message_id
     )
+    await bot.delete_messages(
+        chat_id=update.chat.id,
+        message_ids=init_msg.message_id
+    )
