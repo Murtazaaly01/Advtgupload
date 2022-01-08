@@ -35,6 +35,7 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
 
     if filename != "Unknown":
         s_vid, s_pht = await checkUserSet(update.from_user.id)
+        print(s_vid, s_pht)
         await pyro_upload(bot, update, file_path, filename, bool(s_vid), bool(s_pht), reply_to_id, init_msg)
     else:
         await bot.send_message(
@@ -48,9 +49,9 @@ async def checkUserSet(user_id):
     if video == "video":
         s_vid = True
     else:
-        s_vid = None
+        s_vid = False
     if photo == "photo":
         s_pht = True
     else:
-        s_pht = None
+        s_pht = False
     return s_vid, s_pht
