@@ -49,3 +49,5 @@ Open the settings by using <code>/settings@{}</code> command.
 
     NOT_AUTH_CB = "Why you clicking others buttons? 🤨"
 
+    COMMON_ERR = "Something went wrong. Please try again later."
+
