@@ -18,7 +18,7 @@ photo_files = (".jpg", ".jpeg", ".png", ".bmp", ".gif")
 start_time = time.time()
 dl = Downloader(download_path=Config.DOWNLOAD_LOCATION)
 
-async def file_dl(bot, update, link, init_msg):
+async def file_dl(bot, update, link, init_msg, reply_to_id):
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
         status = await dl.status(uuid)
@@ -62,7 +62,7 @@ async def file_dl(bot, update, link, init_msg):
                 supports_streaming=s_vid,
                 disable_notification=True,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=init_msg.reply_to_message.message_id,
+                reply_to_message_id=reply_to_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     init_msg,
@@ -77,7 +77,7 @@ async def file_dl(bot, update, link, init_msg):
                     caption=filename,
                     progress=progress_for_pyrogram,
                     disable_notification=True,
-                    reply_to_message_id=init_msg.reply_to_message.message_id,
+                    reply_to_message_id=reply_to_id,
                     progress_args=(
                         lang.INIT_UPLOAD_FILE,
                         init_msg,
@@ -91,7 +91,7 @@ async def file_dl(bot, update, link, init_msg):
                     caption=filename,
                     disable_notification=True,
                     progress=progress_for_pyrogram,
-                    reply_to_message_id=init_msg.reply_to_message.message_id,
+                    reply_to_message_id=reply_to_id,
                     progress_args=(
                         lang.INIT_UPLOAD_FILE,
                         init_msg,
@@ -105,7 +105,7 @@ async def file_dl(bot, update, link, init_msg):
                 caption=filename,
                 disable_notification=True,
                 progress=progress_for_pyrogram,
-                reply_to_message_id=init_msg.reply_to_message.message_id,
+                reply_to_message_id=reply_to_id,
                 progress_args=(
                     lang.INIT_UPLOAD_FILE,
                     init_msg,

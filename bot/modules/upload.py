@@ -5,6 +5,7 @@ from bot.helpers.functions.file_dl import file_dl
 
 @Client.on_message(filters.command(CMD.UPLOAD))
 async def upload(bot, update):
+    reply_to_id = update.message.reply_to_message.message_id
     try:
         link = update.text.split(" ", maxsplit=1)[1]
     except:
@@ -18,7 +19,7 @@ async def upload(bot, update):
         text=lang.INIT_DOWNLOAD_FILE,
         reply_to_message_id=update.message_id
     )
-    await file_dl(bot, update, link, init_msg)
+    await file_dl(bot, update, link, init_msg, reply_to_id)
     await bot.send_message(
         chat_id=update.chat.id,
         text=lang.UPLOAD_SUCCESS,
