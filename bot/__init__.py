@@ -14,6 +14,7 @@ class Config_ENV(object):
     API_HASH = os.environ.get("API_HASH")
 
     AUTH_CHAT = set(int(x) for x in os.environ.get("AUTH_CHAT", "").split())
+    ADMINS = set(int(x) for x in os.environ.get("ADMINS", "").split())
     DOWNLOAD_LOCATION = "./bot/DOWNLOADS"
 
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
@@ -33,6 +34,7 @@ class Config_NON_ENV(object):
     API_HASH = ""
 
     AUTH_CHAT = set()
+    ADMINS = set()
     DOWNLOAD_LOCATION = ""
 
     BOT_USERNAME = ""
