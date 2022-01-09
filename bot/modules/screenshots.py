@@ -23,8 +23,7 @@ async def screenshots(bot, update):
             reply_to_message_id=update.message_id
         )
         reply_to_id = update.reply_to_message.message_id
-        file_path = Config.DOWNLOAD_LOCATION + "/" + \
-            f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
+        file_path = f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
         c_time = time.time()
         await bot.download_media(
             message=update.reply_to_message,
@@ -85,7 +84,7 @@ async def screenshots(bot, update):
         images = await generate_screenshot(file_path, ss_dir, 8)
         video, photo = await checkUserSet(update.from_user.id)
         for image in images:
-            await pyro_upload(bot, update, image, None, video, photo, reply_to_id, init_msg)
+            await pyro_upload(bot, update, image, '', video, photo, reply_to_id, init_msg)
             asyncio.sleep(1)
     else:
         await bot.edit_message_text(
