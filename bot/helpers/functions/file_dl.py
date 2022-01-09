@@ -38,10 +38,13 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, up
         if upload:
             await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
     else:
-        await bot.send_message(
-            chat_id=update.chat.id,
-            text=lang.COMMON_ERR,
-            reply_to_message_id=reply_to_id
-        )
+        if i < 5:
+            await file_dl(bot, update, link, init_msg, reply_to_id, return_path, upload, i+1)
+        else:
+            await bot.send_message(
+                chat_id=update.chat.id,
+                text=lang.COMMON_ERR,
+                reply_to_message_id=reply_to_id
+            )
     if return_path:
         return file_path
