@@ -24,7 +24,7 @@ async def screenshots(bot, update):
         )
         reply_to_id = update.reply_to_message.message_id
         file_path = Config.DOWNLOAD_LOCATION + "/" + \
-            f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}.mp4"
+            f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
         c_time = time.time()
         await bot.download_media(
             message=update.reply_to_message,
@@ -76,7 +76,7 @@ async def screenshots(bot, update):
                 message_ids=init_msg.message_id
             )
 
-        ss_dir = Config.DOWNLOAD_PATH + f"/screenshots-{update.from_user.id}"
+        ss_dir = Config.DOWNLOAD_LOCATION + f"/screenshots-{update.from_user.id}"
         if not os.path.isdir(ss_dir):
             os.makedirs(ss_dir)
         images = generate_screenshot(file_path, ss_dir, 8)
