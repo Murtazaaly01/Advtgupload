@@ -1,4 +1,4 @@
-from bot import CMD, LOGGER, Config
+from bot import CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.functions.file_dl import file_dl

@@ -1,8 +1,8 @@
 import subprocess
-from bot import LOGGER, Config
+from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 
-@Client.on_message(filters.command(["shell", "shell@miuiiconsbot"]))
+@Client.on_message(filters.command(CMD.SHELL))
 def shell(bot, update):
     if update.from_user.id not in Config.ADMINS:
       update.reply_text("Sorry, This is not for you")

@@ -15,8 +15,11 @@ class Config_ENV(object):
 
     AUTH_CHAT = set(int(x) for x in os.environ.get("AUTH_CHAT", "").split())
     ADMINS = set(int(x) for x in os.environ.get("ADMINS", "").split())
-    DOWNLOAD_LOCATION = "./bot/DOWNLOADS"
-
+    
+    WORK_DIR = os.environ.get("WORK_DIR", "./bot/")
+    DOWNLOADS_FOLDER = os.environ.get("DOWNLOADS_FOLDER", "DOWNLOADS")
+    DOWNLOAD_BASE_DIR = WORK_DIR + DOWNLOADS_FOLDER
+    
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
     if BOT_USERNAME.startswith("@"):
         BOT_USERNAME = BOT_USERNAME[1:]
@@ -35,7 +38,10 @@ class Config_NON_ENV(object):
 
     AUTH_CHAT = set()
     ADMINS = set()
-    DOWNLOAD_LOCATION = ""
+
+    WORK_DIR = "./bot/"
+    DOWNLOADS_FOLDER = "DOWNLOADS"
+    DOWNLOAD_BASE_DIR = WORK_DIR + DOWNLOADS_FOLDER
 
     BOT_USERNAME = ""
     if BOT_USERNAME.startswith("@"):
@@ -60,3 +66,4 @@ class CMD(object):
     SETTINGS = ["settings", f"settings@{bot}"]
     UPLOAD = ["upload", f"upload@{bot}"]
     SCREENSHOTS  = ["screenshots", f"screenshots@{bot}"]
+    SHELL = ["shell", f"shell@{bot}"]

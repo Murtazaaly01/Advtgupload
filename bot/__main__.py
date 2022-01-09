@@ -22,7 +22,7 @@ if __name__ == "__main__":
         api_id=Config.APP_ID,
         api_hash=Config.API_HASH,
         plugins=plugins,
-        workdir=Config.DOWNLOAD_LOCATION
+        workdir=Config.WORK_DIR
     )
     app.run()
     LOGGER.info('Bot Stopped ! Bye..........')

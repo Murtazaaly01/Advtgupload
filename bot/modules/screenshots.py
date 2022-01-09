@@ -23,7 +23,7 @@ async def screenshots(bot, update):
             reply_to_message_id=update.message_id
         )
         reply_to_id = update.reply_to_message.message_id
-        file_path = f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
+        file_path = Config.DOWNLOADS_FOLDER + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
         c_time = time.time()
         await bot.download_media(
             message=update.reply_to_message,
