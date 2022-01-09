@@ -35,7 +35,7 @@ async def screenshots(bot, update):
                 c_time
             )
         )
-        file_path = Config.DOWNLOAD_LOCATION + "/" + file_path
+        file_path = Config.WORK_DIR + file_path
         files = os.listdir(file_path)
         for file in files:
             LOGGER.info(file)
