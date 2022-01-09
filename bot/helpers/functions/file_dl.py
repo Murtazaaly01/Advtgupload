@@ -9,7 +9,7 @@ from bot.helpers.functions.display_progress import progress_for_aiodl
 
 dl = Downloader(download_path=Config.DOWNLOAD_LOCATION)
 
-async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=False, upload=True, i=0):
+async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=False, upload=None, i=0):
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
         status = await dl.status(uuid)
