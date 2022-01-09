@@ -29,14 +29,14 @@ Change your preffered options here from the buttons below.
     UPLOAD_HELP = """
 You can use the below commands to upload the files to TG.
 
-<code>{} url</code> -> Uploads the file from the given url.
+<code>/{} url</code> -> Uploads the file from the given url.
 
 <b>This upload command only supports :</b>
 Direct file links
 Index folder links (beta)
 
 Thumbnails & Media types can be modified in the settings.
-Open the settings by using <code>{}</code> command.
+Open the settings by using <code>/{}</code> command.
 """
 
     SCREENSHOTS_HELP = """
@@ -45,7 +45,7 @@ You can use the below commands to take screenshots of the media.
 <code>/{}</code> as a reply to the Media File or to a Direct Link
 To specify the amount of screenshots to take, mention the amount with the command.
 
-Deafault amount is 8.
+Default amount is 8.
 """
 
     ERR_USAGE = "Use <code>/help</code> to see how to use me."
