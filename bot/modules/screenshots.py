@@ -36,6 +36,9 @@ async def screenshots(bot, update):
                 c_time
             )
         )
+        files = os.listdir(file_path)
+        for file in files:
+            LOGGER.info(file)
     # USING LINK
     else:
         try:

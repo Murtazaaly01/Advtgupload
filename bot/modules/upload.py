@@ -26,7 +26,7 @@ async def upload(bot, update):
         text=lang.INIT_DOWNLOAD_FILE,
         reply_to_message_id=update.message_id
     )
-    await file_dl(bot, update, link, init_msg, reply_to_id)
+    await file_dl(bot, update, link, init_msg, reply_to_id, upload=True)
     await bot.send_message(
         chat_id=update.chat.id,
         text=lang.UPLOAD_SUCCESS,
