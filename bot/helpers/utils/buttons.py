@@ -27,6 +27,12 @@ async def help_buttons(user_id):
         ],
         [
             InlineKeyboardButton(
+                text="Screenshots",
+                callback_data=f"sshelp_{user_id}"
+            )
+        ],
+        [
+            InlineKeyboardButton(
                 text="Close",
                 callback_data=f"close_{user_id}"
             )

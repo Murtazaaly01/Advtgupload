@@ -48,7 +48,7 @@ async def upload_files_help_cb(c: Client, cb: CallbackQuery):
     )
 
 @Client.on_callback_query(filters.regex(pattern="sshelp"))
-async def upload_files_help_cb(c: Client, cb: CallbackQuery):
+async def ss_help_cb(c: Client, cb: CallbackQuery):
     user_id = cb.data.split("_")[1]
     if int(user_id) != cb.from_user.id:
         await cb.answer(lang.NOT_AUTH_CB)
@@ -59,7 +59,7 @@ async def upload_files_help_cb(c: Client, cb: CallbackQuery):
             CMD.SCREENSHOTS[1]
             ),
         message_id=cb.message.message_id,
-        reply_markup=await upload_helper_buttons(user_id)
+        reply_markup=await main_menu_buttons(user_id)
     )
 
 @Client.on_callback_query(filters.regex(pattern="changevideotype"))
