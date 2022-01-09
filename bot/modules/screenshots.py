@@ -24,7 +24,7 @@ async def screenshots(bot, update):
         )
         reply_to_id = update.reply_to_message.message_id
         file_path = Config.DOWNLOAD_LOCATION + "/" + \
-            f"{update.reply_to_message.document.file_name}-{user_id}"
+            f"{update.reply_to_message.document.file_name}-{user_id}/"
         c_time = time.time()
         await bot.download_media(
             message=update.reply_to_message,
@@ -36,6 +36,8 @@ async def screenshots(bot, update):
                 c_time
             )
         )
+        file_path = file_path + update.reply_to_message.document.file_name
+    # USING LINK
     else:
         try:
             link = update.text.split(" ", maxsplit=1)[1]
@@ -56,29 +58,36 @@ async def screenshots(bot, update):
             reply_to_message_id=update.message_id
         )
         file_path = await file_dl(bot, update, link, init_msg, reply_to_id, return_path=True, upload=False)
-    await bot.edit_message_text(
-        chat_id=update.chat.id,
-        message_id=init_msg.message_id,
-        text=lang.INIT_SS_GEN
-    )
-    check_dur = await checkDuration(file_path)
-    if check_dur < 5:
-        await bot.send_message(
+    # COMMON PART
+    if file_path:
+        await bot.edit_message_text(
             chat_id=update.chat.id,
-            text=lang.ERR_SS_TOO_SHORT,
-            reply_to_message_id=reply_to_id
+            message_id=init_msg.message_id,
+            text=lang.INIT_SS_GEN
         )
-        return await bot.delete_messages(
+        check_dur = await checkDuration(file_path)
+        if check_dur < 5:
+            await bot.send_message(
+                chat_id=update.chat.id,
+                text=lang.ERR_SS_TOO_SHORT,
+                reply_to_message_id=reply_to_id
+            )
+            return await bot.delete_messages(
+                chat_id=update.chat.id,
+                message_ids=init_msg.message_id
+            )
+
+        ss_dir = Config.DOWNLOAD_PATH + f"/screenshots-{update.from_user.id}"
+        if not os.path.isdir(ss_dir):
+            os.makedirs(ss_dir)
+        images = generate_screenshot(file_path, ss_dir, 8)
+        video, photo = await checkUserSet(update.from_user.id)
+        for image in images:
+            await pyro_upload(bot, update, image, None, video, photo, reply_to_id, init_msg)
+            asyncio.sleep(1)
+    else:
+        await bot.edit_message_text(
             chat_id=update.chat.id,
-            message_ids=init_msg.message_id
+            message_id=init_msg.message_id,
+            text=lang.COMMON_ERR
         )
-
-    ss_dir = Config.DOWNLOAD_PATH + f"/screenshots-{update.from_user.id}"
-    if not os.path.isdir(ss_dir):
-        os.makedirs(ss_dir)
-    images = generate_screenshot(file_path, ss_dir, 8)
-    video, photo = await checkUserSet(update.from_user.id)
-    for image in images:
-        await pyro_upload(bot, update, image, None, video, photo, reply_to_id, init_msg)
-        asyncio.sleep(1)
-
