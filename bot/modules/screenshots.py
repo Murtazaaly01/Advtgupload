@@ -35,6 +35,7 @@ async def screenshots(bot, update):
                 c_time
             )
         )
+        file_path = Config.DOWNLOAD_LOCATION + "/" + file_path
         files = os.listdir(file_path)
         for file in files:
             LOGGER.info(file)
@@ -86,6 +87,15 @@ async def screenshots(bot, update):
         for image in images:
             await pyro_upload(bot, update, image, '', video, photo, reply_to_id, init_msg)
             asyncio.sleep(1)
+        await bot.delete_messages(
+            chat_id=update.chat.id,
+            message_ids=init_msg.message_id
+        )
+        await bot.send_message(
+            chat_id=update.chat.id,
+            text=lang.UPLOAD_SUCCESS,
+            reply_to_message_id=reply_to_id
+        )
     else:
         await bot.edit_message_text(
             chat_id=update.chat.id,
