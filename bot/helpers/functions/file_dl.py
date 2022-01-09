@@ -4,12 +4,12 @@ from bot import Config, LOGGER
 from bot.helpers.translations import lang
 from pyrogram.errors import MessageNotModified
 from bot.helpers.functions.file_upload import pyro_upload
-from bot.helpers.database.database import fetch_media_details
+from bot.helpers.database.database import checkUserSet
 from bot.helpers.functions.display_progress import progress_for_aiodl
 
 dl = Downloader(download_path=Config.DOWNLOAD_LOCATION)
 
-async def file_dl(bot, update, link, init_msg, reply_to_id):
+async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=False, upload=True, i=0):
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
         status = await dl.status(uuid)
@@ -36,22 +36,13 @@ async def file_dl(bot, update, link, init_msg, reply_to_id):
     if filename != "Unknown":
         s_vid, s_pht = await checkUserSet(update.from_user.id)
         print(s_vid, s_pht)
-        await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
+        if upload:
+            await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
     else:
         await bot.send_message(
             chat_id=update.chat.id,
             text=lang.COMMON_ERR,
             reply_to_message_id=reply_to_id
         )
-
-async def checkUserSet(user_id):
-    video, photo = await fetch_media_details(user_id)
-    if video == "video":
-        s_vid = True
-    else:
-        s_vid = None
-    if photo == "photo":
-        s_pht = True
-    else:
-        s_pht = None
-    return s_vid, s_pht
+    if return_path:
+        return file_path

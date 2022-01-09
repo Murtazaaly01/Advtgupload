@@ -57,3 +57,4 @@ class CMD(object):
     HELP = ["help", f"help@{bot}"]
     SETTINGS = ["settings", f"settings@{bot}"]
     UPLOAD = ["upload", f"upload@{bot}"]
+    SCREENSHOTS  = ["screenshots", f"screenshots@{bot}"]

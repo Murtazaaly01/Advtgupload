@@ -51,3 +51,5 @@ Open the settings by using <code>/settings@{}</code> command.
 
     COMMON_ERR = "Something went wrong. Please try again later."
 
+    INIT_SS_GEN = "Trying To Generate Screenshot..."
+    ERR_SS_TOO_SHORT = "Video Duration is too short. Please try again."

@@ -4,7 +4,7 @@ from bot import LOGGER
 from hachoir.parser import createParser
 from bot.helpers.translations import lang
 from hachoir.metadata import extractMetadata
-from bot.helpers.functions.gen_thumb import generate_thumbnail
+from bot.helpers.functions.media_tools import generate_thumbnail
 from bot.helpers.functions.display_progress import progress_for_pyrogram
 
 video_files = (".mkv", ".mp4", ".flv", ".avi", ".webm")
