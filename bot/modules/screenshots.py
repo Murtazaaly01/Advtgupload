@@ -36,9 +36,6 @@ async def screenshots(bot, update):
             )
         )
         file_path = Config.WORK_DIR + file_path
-        files = os.listdir(file_path)
-        for file in files:
-            LOGGER.info(file)
     # USING LINK
     else:
         try:

@@ -1,5 +1,5 @@
 import subprocess
-from bot import LOGGER, Config, CMD
+from bot import Config, CMD
 from pyrogram import Client, filters
 
 @Client.on_message(filters.command(CMD.SHELL))
@@ -21,10 +21,8 @@ def shell(bot, update):
     stdout = stdout.decode()
     if stdout:
         reply += f"*Stdout*\n`{stdout}`\n"
-        LOGGER.info(f"Shell - {cmd} - {stdout}")
     if stderr:
         reply += f"*Stderr*\n`{stderr}`\n"
-        LOGGER.error(f"Shell - {cmd} - {stderr}")
     if len(reply) > 3000:
         with open('shell_output.txt', 'w') as file:
             file.write(reply)
