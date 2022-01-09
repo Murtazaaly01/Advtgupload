@@ -27,7 +27,7 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, up
         except Exception as e:
             LOGGER.error(e)
         
-        await asyncio.sleep(6)
+        await asyncio.sleep(Config.STATUS_UPDATE_INTERVAL)
     # For Accurate Values
     status = await dl.status(uuid)
     file_path = status['download_path']

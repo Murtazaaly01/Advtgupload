@@ -1,6 +1,7 @@
 import math
 import time
 import asyncio
+from bot import Config
 
 async def progress_for_pyrogram(
     current,
@@ -39,7 +40,7 @@ async def progress_for_pyrogram(
             )
         except:
             pass
-        await asyncio.sleep(6)
+        await asyncio.sleep(Config.STATUS_UPDATE_INTERVAL)
 
 def humanbytes(size):
     if not size:

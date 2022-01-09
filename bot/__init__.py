@@ -19,6 +19,8 @@ class Config_ENV(object):
     WORK_DIR = os.environ.get("WORK_DIR", "./bot/")
     DOWNLOADS_FOLDER = os.environ.get("DOWNLOADS_FOLDER", "DOWNLOADS")
     DOWNLOAD_BASE_DIR = WORK_DIR + DOWNLOADS_FOLDER
+
+    STATUS_UPDATE_INTERVAL = int(os.environ.get("STATUS_UPDATE_INTERVAL", 6))
     
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
     if BOT_USERNAME.startswith("@"):
@@ -42,6 +44,8 @@ class Config_NON_ENV(object):
     WORK_DIR = "./bot/"
     DOWNLOADS_FOLDER = "DOWNLOADS"
     DOWNLOAD_BASE_DIR = WORK_DIR + DOWNLOADS_FOLDER
+
+    STATUS_UPDATE_INTERVAL = 6
 
     BOT_USERNAME = ""
     if BOT_USERNAME.startswith("@"):

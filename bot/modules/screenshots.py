@@ -76,14 +76,14 @@ async def screenshots(bot, update):
                 message_ids=init_msg.message_id
             )
 
-        ss_dir = Config.DOWNLOAD_LOCATION + f"/screenshots-{update.from_user.id}"
+        ss_dir = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + "screenshots"
         if not os.path.isdir(ss_dir):
             os.makedirs(ss_dir)
         images = await generate_screenshot(file_path, ss_dir, 8)
         video, photo = await checkUserSet(update.from_user.id)
         for image in images:
             await pyro_upload(bot, update, image, '', video, photo, reply_to_id, init_msg)
-            asyncio.sleep(1)
+            await asyncio.sleep(1)
         await bot.delete_messages(
             chat_id=update.chat.id,
             message_ids=init_msg.message_id
