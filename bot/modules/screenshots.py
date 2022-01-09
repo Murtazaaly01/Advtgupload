@@ -79,7 +79,7 @@ async def screenshots(bot, update):
         ss_dir = Config.DOWNLOAD_LOCATION + f"/screenshots-{update.from_user.id}"
         if not os.path.isdir(ss_dir):
             os.makedirs(ss_dir)
-        images = generate_screenshot(file_path, ss_dir, 8)
+        images = await generate_screenshot(file_path, ss_dir, 8)
         video, photo = await checkUserSet(update.from_user.id)
         for image in images:
             await pyro_upload(bot, update, image, None, video, photo, reply_to_id, init_msg)
