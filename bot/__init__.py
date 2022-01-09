@@ -1,6 +1,8 @@
 import os
 import logging
 
+from pyrogram.methods.messages.download_media import DEFAULT_DOWNLOAD_DIR
+
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -21,6 +23,7 @@ class Config_ENV(object):
     DOWNLOAD_BASE_DIR = WORK_DIR + DOWNLOADS_FOLDER
 
     STATUS_UPDATE_INTERVAL = int(os.environ.get("STATUS_UPDATE_INTERVAL", 6))
+    DEFAULT_SS_GEN_LIM = int(os.environ.get("DEFAULT_SS_GEN_LIM", 8))
     
     BOT_USERNAME = os.environ.get("BOT_USERNAME", "")
     if BOT_USERNAME.startswith("@"):

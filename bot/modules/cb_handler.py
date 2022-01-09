@@ -1,4 +1,4 @@
-from bot import Config, LOGGER
+from bot import Config, LOGGER, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.utils.buttons import *
@@ -39,7 +39,25 @@ async def upload_files_help_cb(c: Client, cb: CallbackQuery):
         return
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
-        text=lang.UPLOAD_HELP.format(Config.BOT_USERNAME),
+        text=lang.UPLOAD_HELP.format(
+            CMD.UPLOAD[1],
+            CMD.SETTINGS[1]
+            ),
+        message_id=cb.message.message_id,
+        reply_markup=await upload_helper_buttons(user_id)
+    )
+
+@Client.on_callback_query(filters.regex(pattern="sshelp"))
+async def upload_files_help_cb(c: Client, cb: CallbackQuery):
+    user_id = cb.data.split("_")[1]
+    if int(user_id) != cb.from_user.id:
+        await cb.answer(lang.NOT_AUTH_CB)
+        return
+    await c.edit_message_text(
+        chat_id=cb.message.chat.id,
+        text=lang.SCREENSHOTS_HELP.format(
+            CMD.SCREENSHOTS[1]
+            ),
         message_id=cb.message.message_id,
         reply_markup=await upload_helper_buttons(user_id)
     )

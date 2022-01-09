@@ -15,8 +15,8 @@ Please Choose the Category for the help.
     BOT_INFO = """
 <b>Version :</b> <code>1.0.0</code>
 <b>Owner :</b> <code>@{}</code>
-<b>Source :</b> <code>Closed</code>
-<b>GitHub :</b> <code>Closed</code>
+<b>Source :</b> <code>Open</code>
+<b>GitHub :</b> <code>Open</code>
 <b>Framework :</b> <code>Python</code>
 <b>Server :</b> <code>Heroku</code>
 <b>Database :</b> <code>NoSQL - MongoDB</code>
@@ -29,14 +29,23 @@ Change your preffered options here from the buttons below.
     UPLOAD_HELP = """
 You can use the below commands to upload the files to TG.
 
-<code>/upload url</code> -> Uploads the file from the given url.
+<code>{} url</code> -> Uploads the file from the given url.
 
 <b>This upload command only supports :</b>
 Direct file links
 Index folder links (beta)
 
 Thumbnails & Media types can be modified in the settings.
-Open the settings by using <code>/settings@{}</code> command.
+Open the settings by using <code>{}</code> command.
+"""
+
+    SCREENSHOTS_HELP = """
+You can use the below commands to take screenshots of the media.
+
+<code>/{}</code> as a reply to the Media File or to a Direct Link
+To specify the amount of screenshots to take, mention the amount with the command.
+
+Deafault amount is 8.
 """
 
     ERR_USAGE = "Use <code>/help</code> to see how to use me."
