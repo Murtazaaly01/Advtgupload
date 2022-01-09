@@ -24,7 +24,7 @@ async def screenshots(bot, update):
         )
         reply_to_id = update.reply_to_message.message_id
         file_path = Config.DOWNLOAD_LOCATION + "/" + \
-            f"{update.reply_to_message.document.file_name}-{user_id}/"
+            f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}.mp4"
         c_time = time.time()
         await bot.download_media(
             message=update.reply_to_message,
@@ -36,7 +36,6 @@ async def screenshots(bot, update):
                 c_time
             )
         )
-        file_path = file_path + update.reply_to_message.document.file_name
     # USING LINK
     else:
         try:
