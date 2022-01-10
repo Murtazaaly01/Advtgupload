@@ -98,11 +98,12 @@ async def screenshots(bot, update):
             images = await generate_screenshot(file_path, ss_dir, int(ss_no))
             video, photo = await checkUserSet(update.from_user.id)
             print(video, photo)
+            i = 1
             for image in images:
-                i = 1
                 await pyro_upload(bot, update, image, f"SS - {i}.jpg", video, photo, reply_to_id, init_msg)
+                i += 1
                 await asyncio.sleep(1)
-                i+=1
+                
             await bot.delete_messages(
                 chat_id=update.chat.id,
                 message_ids=init_msg.message_id
