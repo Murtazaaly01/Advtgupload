@@ -120,7 +120,7 @@ async def ytdl_buttons(list, user_id):
                         text=list[i+1],
                         callback_data=f"yt_{list[i+1]}_{user_id}"
                     )
-                ]
+                ],
             )
             i += 1
         i += 1
@@ -147,10 +147,10 @@ async def yt_ext_buttons(resolution, reply_to_id, user_id):
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        text=formats["format_id"],
+                        text=f'{formats["format_id"]}',
                         callback_data=f"ytdl_{ext}_{user_id}"
                     )
-                ]
+                ],
             )
     return InlineKeyboardMarkup(buttons)
 
@@ -168,7 +168,7 @@ async def yt_format_button(ext, reply_to_id, user_id):
                         text=formats["vcodec"],
                         callback_data=f"ytf_{formats['format']}_{user_id}"
                     )
-                ]
+                ],
             )
     return InlineKeyboardMarkup(buttons)
 
