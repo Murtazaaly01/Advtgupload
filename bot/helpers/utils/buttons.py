@@ -1,3 +1,5 @@
+import json
+from bot import Config
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 async def start_buttons(user_id):
@@ -94,6 +96,7 @@ async def settings_buttons(video_type, photo_type, user_id):
     ]
     return InlineKeyboardMarkup(buttons)
 
+# FIRST MENU FOR CHOOSING QUALITY
 async def ytdl_buttons(list, user_id):
     inline_keyboard = []
     string_buttons = []
@@ -103,7 +106,7 @@ async def ytdl_buttons(list, user_id):
             string_buttons.append(
                 InlineKeyboardButton(
                     text=list[i],
-                    callback_data=f"yt|{list[i]}|{user_id}"
+                    callback_data=f"yt_{list[i]}_{user_id}"
                 )
             )
         else:
@@ -111,11 +114,11 @@ async def ytdl_buttons(list, user_id):
                 [
                     InlineKeyboardButton(
                         text=list[i],
-                        callback_data=f"yt|{list[i]}|{user_id}"
+                        callback_data=f"yt_{list[i]}_{user_id}"
                     ),
                     InlineKeyboardButton(
                         text=list[i+1],
-                        callback_data=f"yt|{list[i+1]}|{user_id}"
+                        callback_data=f"yt_{list[i+1]}_{user_id}"
                     )
                 ]
             )
@@ -131,3 +134,44 @@ async def ytdl_buttons(list, user_id):
         ]
     )
     return InlineKeyboardMarkup(inline_keyboard)
+
+# 2ND MENU FOR CHOOSING VIDEO EXTENSION
+async def yt_ext_buttons(resolution, reply_to_id, user_id):
+    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+    with open(json_file_path, "r", encoding="utf8") as f:
+            response_json = json.load(f)
+    buttons = []
+    for formats in response_json["formats"]:
+        if formats["format_id"] == resolution:
+            ext = formats["ext"]
+            buttons.append(
+                [
+                    InlineKeyboardButton(
+                        text=formats["format_id"],
+                        callback_data=f"ytdl_{ext}_{user_id}"
+                    )
+                ]
+            )
+    return InlineKeyboardMarkup(buttons)
+
+# 3RD MENU FOR CHOOSING VIDEO FORMAT FOR THE EXT AND GIVE CB TO DL URL
+async def yt_format_button(ext, reply_to_id, user_id):
+    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+    with open(json_file_path, "r", encoding="utf8") as f:
+            response_json = json.load(f)
+    buttons = []
+    for formats in response_json["formats"]:
+        if formats["ext"] == ext:
+            buttons.append(
+                [
+                    InlineKeyboardButton(
+                        text=formats["vcodec"],
+                        callback_data=f"ytf_{formats['format']}_{user_id}"
+                    )
+                ]
+            )
+    return InlineKeyboardMarkup(buttons)
+
+    
+
+

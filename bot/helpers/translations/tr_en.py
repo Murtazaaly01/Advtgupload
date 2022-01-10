@@ -64,3 +64,6 @@ Default amount is 8.
     ERR_SS_TOO_SHORT = "Video Duration is too short. Please try again."
 
     YTDL_MENU = "Choose the required quality for the video from the below buttons."
+    YTDL_EXT_MENU = "Choose the required extension for the resolution <b>{}</b> from the below buttons."
+    YTDL_EXT_FRM_MENU = "Choose the required format for the extension <b>{}</b> from the below buttons."
+    
