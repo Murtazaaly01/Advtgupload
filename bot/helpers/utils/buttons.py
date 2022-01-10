@@ -122,4 +122,12 @@ async def ytdl_buttons(list, user_id):
             i += 1
         i += 1
     inline_keyboard.append(string_buttons)
+    inline_keyboard.append(
+        [
+            InlineKeyboardButton(
+                text="Close",
+                callback_data=f"close_{user_id}"
+            )
+        ]
+    )
     return InlineKeyboardMarkup(inline_keyboard)

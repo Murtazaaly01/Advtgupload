@@ -24,5 +24,6 @@ if __name__ == "__main__":
         plugins=plugins,
         workdir=Config.WORK_DIR
     )
+    LOGGER.info("Bot Started......Now Enjoy")
     app.run()
     LOGGER.info('Bot Stopped ! Bye..........')
