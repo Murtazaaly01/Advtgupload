@@ -62,3 +62,5 @@ Default amount is 8.
 
     INIT_SS_GEN = "Trying To Generate Screenshot..."
     ERR_SS_TOO_SHORT = "Video Duration is too short. Please try again."
+
+    YTDL_MENU = "Choose the required quality for the video from the below buttons."

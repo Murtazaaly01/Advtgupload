@@ -50,7 +50,7 @@ async def upload(bot, update):
                 reply_markup = InlineKeyboardMarkup(inline_keyboard)
                 return await bot.send_message(
                     chat_id=update.chat.id,
-                    text=lang.UPLOAD_TEXT,
+                    text=lang.YTDL_MENU,
                     reply_markup=reply_markup,
                     reply_to_message_id=update.message_id
                 )
