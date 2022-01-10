@@ -106,7 +106,7 @@ async def ytdl_buttons(list, user_id):
             string_buttons.append(
                 InlineKeyboardButton(
                     text=list[i],
-                    callback_data=f"yt_{list[i]}_{user_id}"
+                    callback_data=f"y-t_{list[i]}_{user_id}"
                 )
             )
         else:
@@ -114,11 +114,11 @@ async def ytdl_buttons(list, user_id):
                 [
                     InlineKeyboardButton(
                         text=list[i],
-                        callback_data=f"yt_{list[i]}_{user_id}"
+                        callback_data=f"y-t_{list[i]}_{user_id}"
                     ),
                     InlineKeyboardButton(
                         text=list[i+1],
-                        callback_data=f"yt_{list[i+1]}_{user_id}"
+                        callback_data=f"y-t_{list[i+1]}_{user_id}"
                     )
                 ],
             )

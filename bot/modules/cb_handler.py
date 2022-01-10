@@ -128,7 +128,7 @@ async def close_cb(c: Client, cb: CallbackQuery):
         LOGGER.warning(f"Couldn't delete message in {cb.message.chat.id}")
         pass
 
-@Client.on_callback_query(filters.regex(pattern="yt"))
+@Client.on_callback_query(filters.regex(pattern="y-t"))
 async def yt_cb(c: Client, cb: CallbackQuery):
     user_id = cb.data.split("_")[2]
     if int(user_id) != cb.from_user.id:
