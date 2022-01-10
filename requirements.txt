@@ -11,3 +11,4 @@ google-auth-oauthlib
 requests
 tenacity
 urllib3
+yt-dlp
