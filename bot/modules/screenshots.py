@@ -29,7 +29,14 @@ async def screenshots(bot, update):
                 ss_no = Config.DEFAULT_SS_GEN_LIM
 
             reply_to_id = update.reply_to_message.message_id
-            file_path = Config.DOWNLOADS_FOLDER + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
+            try:
+                file_path = Config.DOWNLOADS_FOLDER + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.video.file_name}"
+            except:
+                return await bot.send_message(
+                    chat_id=update.chat.id,
+                    text=lang.ERR_USAGE,
+                    reply_to_message_id=update.message_id
+                )
             c_time = time.time()
             await bot.download_media(
                 message=update.reply_to_message,

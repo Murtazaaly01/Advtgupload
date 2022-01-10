@@ -179,7 +179,7 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
         video, photo = await checkUserSet(int(user_id))
         await dl_yt_thumb(thumb, reply_to_id)
         thumb_path = Config.DOWNLOAD_BASE_DIR + "/" + f"thum_{reply_to_id}.jpg"
-        await pyro_upload(c, cb.message, new_filepath, '', video, photo, reply_to_id, cb.message, thumb_path)
+        await pyro_upload(c, cb.message, new_filepath, new_filename, video, photo, reply_to_id, cb.message, thumb_path)
         
 
     
