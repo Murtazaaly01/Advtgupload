@@ -145,38 +145,24 @@ async def yt_cb(c: Client, cb: CallbackQuery):
 
 @Client.on_callback_query(filters.regex(pattern="ytdl"))
 async def ytdl_cb(c: Client, cb: CallbackQuery):
-    user_id = cb.data.split("_")[2]
+    user_id = cb.data.split("_")[3]
     if int(user_id) != cb.from_user.id:
         await cb.answer(lang.NOT_AUTH_CB)
         return
     reply_to_id = cb.message.reply_to_message.message_id
     ext = cb.data.split("_")[1]
-    await c.edit_message_text(
-        chat_id=cb.message.chat.id,
-        text=lang.YTDL_EXT_FRM_MENU.format(ext),
-        message_id=cb.message.message_id,
-        reply_markup=await yt_format_button(ext, reply_to_id, user_id)
-    )
+    vcodec = cb.data.split("_")[2]
 
-@Client.on_callback_query(filters.regex(pattern="ytf"))
-async def yt_url_dl_cb(c: Client, cb: CallbackQuery):
-    user_id = cb.data.split("_")[2]
-    if int(user_id) != cb.from_user.id:
-        await cb.answer(lang.NOT_AUTH_CB)
-        return
-    reply_to_id = cb.message.reply_to_message.message_id
-    s_format = cb.data.split("_")[1]
-    
     json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
     with open(json_file_path, "r", encoding="utf8") as f:
         response_json = json.load(f)
     title = response_json["title"]
-    for format_ in response_json["formats"]:
-        if format_["format"] == s_format:
-            url = format_["url"]
-            ext = format_["ext"]
-            resolution = format_["format_note"]
-            break
+    for format in response_json["formats"]:
+        if format["ext"] == ext:
+            if format["vcodec"] == vcodec:
+                url = format["url"]
+                resolution = format["format_note"]
+                break
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.INIT_DOWNLOAD_FILE,
@@ -188,7 +174,6 @@ async def yt_url_dl_cb(c: Client, cb: CallbackQuery):
         os.rename(file_path, new_filepath)
         video, photo = await checkUserSet(user_id)
         await pyro_upload(c, cb.message, new_filepath, '', video, photo, reply_to_id, cb.message)
-
         
 
     

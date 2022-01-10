@@ -144,34 +144,16 @@ async def yt_ext_buttons(resolution, reply_to_id, user_id):
     for formats in response_json["formats"]:
         if formats["format_note"] == resolution:
             ext = formats["ext"]
+            vcodec = formats["vcodec"]
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        text=f"{ext}",
-                        callback_data=f"yt_{ext}_{user_id}"
+                        text=f"{ext} - {vcodec}",
+                        callback_data=f"ytdl_{ext}_{vcodec}_{user_id}"
                     )
                 ],
             )
     return InlineKeyboardMarkup(buttons)
-
-# 3RD MENU FOR CHOOSING VIDEO FORMAT FOR THE EXT AND GIVE CB TO DL URL
-async def yt_format_button(ext, reply_to_id, user_id):
-    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
-    with open(json_file_path, "r", encoding="utf8") as f:
-            response_json = json.load(f)
-    buttons = []
-    for formats in response_json["formats"]:
-        if formats["ext"] == ext:
-            buttons.append(
-                [
-                    InlineKeyboardButton(
-                        text=formats["vcodec"],
-                        callback_data=f"ytf_{formats['format']}_{user_id}"
-                    )
-                ],
-            )
-    return InlineKeyboardMarkup(buttons)
-
     
 
 
