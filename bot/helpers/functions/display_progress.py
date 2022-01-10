@@ -65,8 +65,10 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(milliseconds) + "ms, ") if milliseconds else "")
     return tmp[:-2]
 
-async def progress_for_aiodl(r):
+async def progress_for_aiodl(r, ovrr_name=None):
     file_name = r['filename']
+    if ovrr_name:
+        file_name = ovrr_name
     size = r['total_size_str']
     downloaded = r['downloaded_str']
     progress = r['progress']

@@ -168,9 +168,10 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
         text=lang.INIT_DOWNLOAD_FILE,
         message_id=cb.message.message_id
     )
-    file_path = await file_dl(c, cb.message, url, cb.message, reply_to_id, return_path=True, upload=False)
+    new_filename = title + "_" + resolution + "." + ext
+    new_filepath = Config.DOWNLOAD_BASE_DIR + "/" + new_filename
+    file_path = await file_dl(c, cb.message, url, cb.message, reply_to_id, return_path=True, upload=False, ovrrd_filename=new_filename)
     if file_path:
-        new_filepath = Config.DOWNLOAD_BASE_DIR + "/" + title + "_" + resolution + "." + ext
         os.rename(file_path, new_filepath)
         video, photo = await checkUserSet(int(user_id))
         await pyro_upload(c, cb.message, new_filepath, '', video, photo, reply_to_id, cb.message)

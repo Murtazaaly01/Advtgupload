@@ -9,12 +9,12 @@ from bot.helpers.functions.display_progress import progress_for_aiodl
 
 dl = Downloader(download_path=Config.DOWNLOAD_BASE_DIR)
 
-async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, upload=None, i=0):
+async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, upload=None, i=0, ovrr_name=None):
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
         status = await dl.status(uuid)
         filename = status['filename']
-        detail_msg = await progress_for_aiodl(status)
+        detail_msg = await progress_for_aiodl(status, ovrr_name)
         try:
             status_msg = await bot.edit_message_text(
                 chat_id=update.chat.id,
