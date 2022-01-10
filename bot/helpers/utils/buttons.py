@@ -142,13 +142,13 @@ async def yt_ext_buttons(resolution, reply_to_id, user_id):
             response_json = json.load(f)
     buttons = []
     for formats in response_json["formats"]:
-        if formats["format_id"] == resolution:
+        if formats["format_note"] == resolution:
             ext = formats["ext"]
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        text=f'{formats["format_id"]}',
-                        callback_data=f"ytdl_{ext}_{user_id}"
+                        text=f"{ext}",
+                        callback_data=f"yt_{ext}_{user_id}"
                     )
                 ],
             )
