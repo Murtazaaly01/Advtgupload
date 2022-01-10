@@ -1,6 +1,6 @@
 import os
 import time
-from bot import LOGGER
+from bot import LOGGER, Config
 from hachoir.parser import createParser
 from bot.helpers.translations import lang
 from hachoir.metadata import extractMetadata
@@ -27,7 +27,7 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
             duration = metadata.get("duration").seconds
         width = 1280
         height = 720
-        await bot.send_video(
+        s_msg = await bot.send_video(
             chat_id=update.chat.id,
             video=file_path,
             duration=duration,
@@ -44,9 +44,13 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 init_msg,
                 start_time
             )
-        )   
+        )
+        if Config.ALLOW_DUMP:
+            await s_msg.copy(   
+                chat_id=Config.LOG_CHANNEL_ID
+            )
     elif filename.endswith(photo_files) and s_pht:
-       await bot.send_photo(
+        s_msg = await bot.send_photo(
             chat_id=update.chat.id,
             photo=file_path,
             caption=filename,
@@ -59,8 +63,12 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 start_time
             )
         ) 
+        if Config.ALLOW_DUMP:
+            await s_msg.copy(   
+                chat_id=Config.LOG_CHANNEL_ID
+            )
     else:
-        await bot.send_document(
+        s_msg = await bot.send_document(
             chat_id=update.chat.id,
             document=file_path,
             caption=filename,
@@ -73,6 +81,10 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 start_time
             )
         )
+        if Config.ALLOW_DUMP:
+            await s_msg.copy(   
+                chat_id=Config.LOG_CHANNEL_ID
+            )
     # CLEAN UP
     os.remove(file_path)
     try:

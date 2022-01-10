@@ -13,7 +13,7 @@ Use the help button to see how to use me.
 Please Choose the Category for the help.
 """
     BOT_INFO = """
-<b>Version :</b> <code>1.0.0</code>
+<b>Version :</b> <code>1.2.0</code>
 <b>Owner :</b> <code>@{}</code>
 <b>Source :</b> <code>Open</code>
 <b>GitHub :</b> <code>Open</code>

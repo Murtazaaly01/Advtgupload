@@ -17,6 +17,8 @@ class Config_ENV(object):
 
     AUTH_CHAT = set(int(x) for x in os.environ.get("AUTH_CHAT", "").split())
     ADMINS = set(int(x) for x in os.environ.get("ADMINS", "").split())
+    LOG_CHANNEL_ID = int(os.environ.get("LOG_CHANNEL_ID", 12345))
+    ALLOW_DUMP = bool(os.environ.get("ALLOW_DUMP", False))
     
     WORK_DIR = os.environ.get("WORK_DIR", "./bot/")
     DOWNLOADS_FOLDER = os.environ.get("DOWNLOADS_FOLDER", "DOWNLOADS")
@@ -43,12 +45,15 @@ class Config_NON_ENV(object):
 
     AUTH_CHAT = set()
     ADMINS = set()
+    LOG_CHANNEL_ID = 12345
+    ALLOW_DUMP = False
 
     WORK_DIR = "./bot/"
     DOWNLOADS_FOLDER = "DOWNLOADS"
     DOWNLOAD_BASE_DIR = WORK_DIR + DOWNLOADS_FOLDER
 
     STATUS_UPDATE_INTERVAL = 6
+    DEFAULT_SS_GEN_LIM = 8
 
     BOT_USERNAME = ""
     if BOT_USERNAME.startswith("@"):
