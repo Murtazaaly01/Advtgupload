@@ -3,10 +3,12 @@ from bot import Config, LOGGER, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.utils.buttons import *
-from pyrogram.types.bots_and_keyboards import CallbackQuery
-from bot.helpers.database.database import fetch_media_details, change_video_type_db, change_photo_type_db, checkUserSet
+from bot.helpers.functions.media_tools import dl_yt_thumb
 from bot.helpers.functions.file_dl import file_dl
 from bot.helpers.functions.file_upload import pyro_upload
+from pyrogram.types.bots_and_keyboards import CallbackQuery
+from bot.helpers.database.database import fetch_media_details, change_video_type_db,\
+     change_photo_type_db, checkUserSet
 
 @Client.on_callback_query(filters.regex(pattern="helpmsg"))
 async def help_cb(c: Client, cb: CallbackQuery):
@@ -157,6 +159,7 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
     with open(json_file_path, "r", encoding="utf8") as f:
         response_json = json.load(f)
     title = response_json["title"]
+    thumb = response_json["thumbnail"]
     for format in response_json["formats"]:
         if format["ext"] == ext:
             if format["vcodec"] == vcodec:
@@ -174,7 +177,9 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
     if file_path:
         os.rename(file_path, new_filepath)
         video, photo = await checkUserSet(int(user_id))
-        await pyro_upload(c, cb.message, new_filepath, '', video, photo, reply_to_id, cb.message)
+        await dl_yt_thumb(thumb, reply_to_id)
+        thumb_path = Config.DOWNLOAD_BASE_DIR + "/" + f"thum_{reply_to_id}.jpg"
+        await pyro_upload(c, cb.message, new_filepath, '', video, photo, reply_to_id, cb.message, thumb_path)
         
 
     

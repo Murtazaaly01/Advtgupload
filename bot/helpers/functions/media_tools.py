@@ -1,6 +1,8 @@
 import os
 import time
 import asyncio
+import requests
+from bot import Config
 from hachoir.parser import createParser
 from hachoir.metadata import extractMetadata
 
@@ -90,3 +92,9 @@ async def checkDuration(file_path):
         if metadata.has("duration"):
             duration = metadata.get('duration').seconds
     return duration
+
+async def dl_yt_thumb(link, msg_id):
+    response = requests.get(link)
+    file = open(f"{Config.DOWNLOAD_BASE_DIR}/thum_{msg_id}.jpg", "wb")
+    file.write(response.content)
+    file.close()
