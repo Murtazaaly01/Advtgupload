@@ -149,10 +149,18 @@ async def yt_ext_buttons(resolution, reply_to_id, user_id):
                 [
                     InlineKeyboardButton(
                         text=f"{ext} - {vcodec}",
-                        callback_data=f"ytdl_{ext}_{vcodec}_{user_id}"
+                        callback_data=f"dlyt_{ext}_{vcodec}_{user_id}"
                     )
                 ],
             )
+    buttons.append(
+        [
+            InlineKeyboardButton(
+                text="Close",
+                callback_data=f"close_{user_id}"
+            )
+        ]
+    )
     return InlineKeyboardMarkup(buttons)
     
 

@@ -143,7 +143,7 @@ async def yt_cb(c: Client, cb: CallbackQuery):
         reply_markup=await yt_ext_buttons(resolution, reply_to_id, user_id)
     )
 
-@Client.on_callback_query(filters.regex(pattern="ytdl"))
+@Client.on_callback_query(filters.regex(pattern="dlyt"))
 async def ytdl_cb(c: Client, cb: CallbackQuery):
     user_id = cb.data.split("_")[3]
     if int(user_id) != cb.from_user.id:
