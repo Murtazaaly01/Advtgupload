@@ -34,8 +34,8 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, up
     filename = status['filename']
 
     if filename != "Unknown":
-        s_vid, s_pht = await checkUserSet(update.from_user.id)
         if upload:
+            s_vid, s_pht = await checkUserSet(update.from_user.id)
             await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
     else:
         if i < 5:
