@@ -25,7 +25,7 @@ async def jsonYTDL(url, msg_id):
         if "\n" in x_reponse:
             x_reponse, _ = x_reponse.split("\n")
         response_json = json.loads(x_reponse)
-        save_path = Config.DOWNLOAD_BASE_DIR + "/" + msg_id + ".json"
+        save_path = Config.DOWNLOAD_BASE_DIR + "/" + str(msg_id) + ".json"
         with open(save_path, "w", encoding="utf8") as outfile:
             json.dump(response_json, outfile, ensure_ascii=False)
         if "formats" in response_json:
