@@ -35,7 +35,7 @@ async def generate_thumbnail(file):
     else:
         return None
 
-async def generate_screenshot(file_path, output_path ,no_photos, min_duration=5):
+async def generate_screenshot(file_path, output_path , no_photos, min_duration=5):
     metadata = extractMetadata(createParser(file_path))
     duration = 0
     if metadata is not None:

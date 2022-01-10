@@ -14,15 +14,18 @@ photo_files = (".jpg", ".jpeg", ".png", ".bmp", ".gif")
 start_time = time.time()
 
 async def pyro_upload(bot, update, file_path, filename, s_vid,\
-    s_pht, reply_to_id, init_msg):
+    s_pht, reply_to_id, init_msg, force_thum=None):
 
     if filename.endswith(video_files) and s_vid:
         metadata = extractMetadata(createParser(file_path))
-        try:
-            thumb = await generate_thumbnail(file_path)
-        except Exception as e:
-            LOGGER.error(e)
-            thumb = None
+        if force_thum:
+            thumb = force_thum
+        else:
+            try:
+                thumb = await generate_thumbnail(file_path)
+            except Exception as e:
+                LOGGER.error(e)
+                thumb = None
         if metadata.has("duration"):
             duration = metadata.get("duration").seconds
         width = 1280

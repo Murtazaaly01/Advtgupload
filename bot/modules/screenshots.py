@@ -95,24 +95,32 @@ async def screenshots(bot, update):
             ss_dir = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + "screenshots"
             if not os.path.isdir(ss_dir):
                 os.makedirs(ss_dir)
-            images = await generate_screenshot(file_path, ss_dir, int(ss_no))
-            video, photo = await checkUserSet(update.from_user.id)
-            print(video, photo)
-            i = 1
-            for image in images:
-                await pyro_upload(bot, update, image, f"SS - {i}.jpg", video, photo, reply_to_id, init_msg)
-                i += 1
-                await asyncio.sleep(1)
-                
-            await bot.delete_messages(
-                chat_id=update.chat.id,
-                message_ids=init_msg.message_id
-            )
-            await bot.send_message(
-                chat_id=update.chat.id,
-                text=lang.UPLOAD_SUCCESS,
-                reply_to_message_id=reply_to_id
-            )
+            LOGGER.info(f"Generating {ss_no} screenshots for {user_id}")
+            images = await generate_screenshot(file_path, ss_dir, no_photos=int(ss_no))
+            if images:
+                video, photo = await checkUserSet(update.from_user.id)
+                print(video, photo)
+                i = 1
+                for image in images:
+                    await pyro_upload(bot, update, image, f"SS - {i}.jpg", video, photo, reply_to_id, init_msg)
+                    i += 1
+                    await asyncio.sleep(1)
+                    
+                await bot.delete_messages(
+                    chat_id=update.chat.id,
+                    message_ids=init_msg.message_id
+                )
+                await bot.send_message(
+                    chat_id=update.chat.id,
+                    text=lang.UPLOAD_SUCCESS,
+                    reply_to_message_id=reply_to_id
+                )
+            else:
+                await bot.edit_message_text(
+                    chat_id=update.chat.id,
+                    message_id=init_msg.message_id,
+                    text=lang.COMMON_ERR
+                )
         else:
             await bot.edit_message_text(
                 chat_id=update.chat.id,
