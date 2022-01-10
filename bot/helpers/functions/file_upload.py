@@ -28,7 +28,7 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
         width = 1280
         height = 720
         s_msg = await bot.send_video(
-            chat_id=update.chat.id,
+            chat_id=update.user.id,
             video=file_path,
             duration=duration,
             width=width,
@@ -51,7 +51,7 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
             )
     elif filename.endswith(photo_files) and s_pht:
         s_msg = await bot.send_photo(
-            chat_id=update.chat.id,
+            chat_id=update.user.id,
             photo=file_path,
             caption=filename,
             progress=progress_for_pyrogram,
@@ -69,7 +69,7 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
             )
     else:
         s_msg = await bot.send_document(
-            chat_id=update.chat.id,
+            chat_id=update.user.id,
             document=file_path,
             caption=filename,
             disable_notification=True,
