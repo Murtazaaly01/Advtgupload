@@ -33,3 +33,4 @@ async def jsonYTDL(url, msg_id):
             for format in response_json["formats"]:
                 if format["format_note"] not in list and format["format_note"] != "storyboard":
                     list.append(format["format_note"])
+        return None, list
