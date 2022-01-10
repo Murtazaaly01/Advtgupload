@@ -93,3 +93,33 @@ async def settings_buttons(video_type, photo_type, user_id):
         ]
     ]
     return InlineKeyboardMarkup(buttons)
+
+async def ytdl_buttons(list, user_id):
+    inline_keyboard = []
+    string_buttons = []
+    i = 0
+    while i < len(list):
+        if not list[i][:1].isdigit():
+            string_buttons.append(
+                InlineKeyboardButton(
+                    text=list[i],
+                    callback_data=f"yt|{list[i]}|{user_id}"
+                )
+            )
+        else:
+            inline_keyboard.append(
+                [
+                    InlineKeyboardButton(
+                        text=list[i],
+                        callback_data=f"yt|{list[i]}|{user_id}"
+                    ),
+                    InlineKeyboardButton(
+                        text=list[i+1],
+                        callback_data=f"yt|{list[i+1]}|{user_id}"
+                    )
+                ]
+            )
+            i += 1
+        i += 1
+    inline_keyboard.append(string_buttons)
+    return InlineKeyboardMarkup(inline_keyboard)

@@ -5,7 +5,7 @@ from bot.helpers.translations import lang
 from bot.helpers.functions.ytdlp import jsonYTDL
 from bot.helpers.functions.file_dl import file_dl
 from bot.helpers.database.database import check_user
-from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from bot.helpers.utils.buttons import ytdl_buttons
 
 yt_regex = "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 
@@ -37,21 +37,10 @@ async def upload(bot, update):
                     reply_to_message_id=update.message_id
                 )
             else:
-                inline_keyboard = []
-                horizontal_buttons = []
-                for i in list:
-                    horizontal_buttons.append(
-                        InlineKeyboardButton(
-                            text=i, 
-                            callback_data=i
-                        ),
-                    )
-                inline_keyboard.append(horizontal_buttons)
-                reply_markup = InlineKeyboardMarkup(inline_keyboard)
                 return await bot.send_message(
                     chat_id=update.chat.id,
                     text=lang.YTDL_MENU,
-                    reply_markup=reply_markup,
+                    reply_markup=await ytdl_buttons(list, user_id),
                     reply_to_message_id=update.message_id
                 )
         # FOR DIRECT FILE LINKS
