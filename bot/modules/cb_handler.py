@@ -170,7 +170,7 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
     )
     new_filename = title + "_" + resolution + "." + ext
     new_filepath = Config.DOWNLOAD_BASE_DIR + "/" + new_filename
-    file_path = await file_dl(c, cb.message, url, cb.message, reply_to_id, return_path=True, upload=False, ovrrd_filename=new_filename)
+    file_path = await file_dl(c, cb.message, url, cb.message, reply_to_id, return_path=True, upload=False, ovrr_name=new_filename)
     if file_path:
         os.rename(file_path, new_filepath)
         video, photo = await checkUserSet(int(user_id))
