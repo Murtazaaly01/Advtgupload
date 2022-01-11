@@ -17,7 +17,9 @@ async def screenshots(bot, update):
     await check_user(user_id)
     if update.chat.id in Config.AUTH_CHAT:
         # USING TG FILE
-        if update.reply_to_message is not None:
+        if ((update.reply_to_message.document is not None) or
+            (update.reply_to_message.video is not None)):
+            
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
