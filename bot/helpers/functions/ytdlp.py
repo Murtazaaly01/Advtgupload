@@ -39,7 +39,7 @@ async def jsonYTDL(url, msg_id):
         return None, list
 
 async def ytdl_audio(client, message, link, reply_to_id, user_id, yt_quality, title):
-    await c.edit_message_text(
+    await client.edit_message_text(
         chat_id=message.chat.id,
         text=lang.INIT_DOWNLOAD_FILE,
         message_id=message.message_id
