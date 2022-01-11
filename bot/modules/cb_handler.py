@@ -1,6 +1,7 @@
 import os
 from bot import Config, LOGGER, CMD
 from pyrogram import Client, filters
+from bot.helpers.functions.ytdlp import ytdl_audio
 from bot.helpers.translations import lang
 from bot.helpers.utils.buttons import *
 from bot.helpers.functions.media_tools import dl_yt_thumb
@@ -181,5 +182,37 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
         thumb_path = Config.DOWNLOAD_BASE_DIR + "/" + f"thum_{reply_to_id}.jpg"
         await pyro_upload(c, cb.message, new_filepath, new_filename, video, photo, reply_to_id, cb.message, thumb_path)
         
+@Client.on_callback_query(filters.regex(pattern="y-a"))
+async def yt_audio_cb(c: Client, cb: CallbackQuery):
+    user_id = cb.data.split("_")[1]
+    if int(user_id) != cb.from_user.id:
+        await cb.answer(lang.NOT_AUTH_CB)
+        return
+    reply_to_id = cb.message.reply_to_message.message_id
+    await c.edit_message_text(
+        chat_id=cb.message.chat.id,
+        text=lang.YTDL_AUDIO_MENU,
+        message_id=cb.message.message_id,
+        reply_markup=await yt_audio_buttons(user_id)
+    )
 
-    
+@Client.on_callback_query(filters.regex(pattern="dlyta"))
+async def yt_audio_dl_cb(c: Client, cb: CallbackQuery):
+    user_id = cb.data.split("_")[1]
+    if int(user_id) != cb.from_user.id:
+        await cb.answer(lang.NOT_AUTH_CB)
+        return
+    reply_to_id = cb.message.reply_to_message.message_id
+    audio = cb.data.split("_")[2]
+    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+    with open(json_file_path, "r", encoding="utf8") as f:
+            response_json = json.load(f)
+    yt_link = response_json["original_url"]
+    title = str(response_json["title"]) + ".mp3"
+    err = await ytdl_audio(c, cb.message, yt_link, reply_to_id, user_id, audio, title)
+    if err:
+        await c.edit_message_text(
+            chat_id=cb.message.chat.id,
+            text=err,
+            message_id=cb.message.message_id
+        )

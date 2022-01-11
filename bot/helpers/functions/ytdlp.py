@@ -1,6 +1,8 @@
 import json
 import asyncio
 from bot import Config
+from bot.helpers.functions.file_upload import pyro_upload
+from bot.helpers.database.database import checkUserSet
 
 async def jsonYTDL(url, msg_id):
     command_to_exec = [
@@ -34,3 +36,32 @@ async def jsonYTDL(url, msg_id):
                 if format["format_note"] not in list and format["format_note"] != "storyboard":
                     list.append(format["format_note"])
         return None, list
+
+async def ytdl_audio(client, message, link, reply_to_id, user_id, yt_quality, title):
+    download_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + "/" + title
+    ext = "mp3"
+    if "youtube" in link:
+        command_to_exec = [
+            "yt-dlp",
+            "-c",
+            "--prefer-ffmpeg",
+            "--extract-audio",
+            "--audio-format", ext,
+            "--audio-quality", yt_quality,
+            link,
+            "-o", download_path,
+            "--no-warnings",
+        ]
+    process = await asyncio.create_subprocess_exec(
+        *command_to_exec,
+        stdout=asyncio.subprocess.PIPE,
+        stderr=asyncio.subprocess.PIPE
+    )
+    stdout, stderr = await process.communicate()
+    e_response = stderr.decode().strip()
+    t_response = stdout.decode().strip()
+    if e_response:
+        return e_response
+    if t_response:
+        s_vid, s_pht = await checkUserSet(int(user_id))
+        await pyro_upload(client, message, download_path, title, s_vid, s_pht, reply_to_id, message.id)

@@ -65,3 +65,4 @@ Default amount is 8.
 
     YTDL_MENU = "Choose the required quality for the video from the below buttons."
     YTDL_EXT_MENU = "Choose the required extension for the resolution <b>{}</b> from the below buttons."
+    YTDL_AUDIO_MENU = "Choose the required audio quality for the video from the below buttons."

@@ -128,6 +128,14 @@ async def ytdl_buttons(list, user_id):
     inline_keyboard.append(
         [
             InlineKeyboardButton(
+                text="AUDIOS",
+                callback_data=f"y-a_{user_id}"
+            )
+        ]
+    )
+    inline_keyboard.append(
+        [
+            InlineKeyboardButton(
                 text="Close",
                 callback_data=f"close_{user_id}"
             )
@@ -161,6 +169,35 @@ async def yt_ext_buttons(resolution, reply_to_id, user_id):
             )
         ]
     )
+    return InlineKeyboardMarkup(buttons)
+
+async def yt_audio_buttons(user_id):
+    buttons = [
+        [
+            InlineKeyboardButton(
+                text="MP3 - 64K",
+                callback_data=f"dlyta_{user_id}_64k"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="MP3 - 128K",
+                callback_data=f"dlyta_{user_id}_128k"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="MP3 - 320K",
+                callback_data=f"dlyta_{user_id}_320k"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                text="Close",
+                callback_data=f"close_{user_id}"
+            )
+        ]
+    ]
     return InlineKeyboardMarkup(buttons)
     
 
