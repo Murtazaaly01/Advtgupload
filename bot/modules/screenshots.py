@@ -61,7 +61,6 @@ async def screenshots(bot, update):
                     c_time
                 )
             )
-            print(file_path)
         # USING LINK
         else:
             try:
@@ -86,6 +85,7 @@ async def screenshots(bot, update):
                         text=lang.ERR_USAGE,
                         reply_to_message_id=update.message_id
                     )
+            LOGGER.info(f"{link}" + " " + f"{ss_no}")
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
