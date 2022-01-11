@@ -1,14 +1,13 @@
 import os
 import logging
 
-from pyrogram.methods.messages.download_media import DEFAULT_DOWNLOAD_DIR
-
 logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 LOGGER = logging.getLogger(__name__)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 class Config_ENV(object):
     TG_BOT_TOKEN = os.environ.get("TG_BOT_TOKEN", "")

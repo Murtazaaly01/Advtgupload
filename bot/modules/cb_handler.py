@@ -123,6 +123,12 @@ async def close_cb(c: Client, cb: CallbackQuery):
         message_ids=cb.message.message_id
     )
     try:
+        reply_to_id = cb.message.reply_to_message.message_id
+        json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+        os.remove(json_file_path)
+    except:
+        pass
+    try:
         await c.delete_messages(
             chat_id=cb.message.chat.id,
             message_ids=cb.message.reply_to_message.message_id
