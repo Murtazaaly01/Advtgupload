@@ -30,7 +30,7 @@ async def screenshots(bot, update):
 
             reply_to_id = update.reply_to_message.message_id
             try:
-                file_path = Config.DOWNLOADS_FOLDER + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.video.file_name}"
+                file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.video.file_name}"
             except:
                 return await bot.send_message(
                     chat_id=update.chat.id,
