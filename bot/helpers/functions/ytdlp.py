@@ -1,6 +1,7 @@
 import json
 import asyncio
 from bot import Config
+from bot.helpers.translations import lang
 from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.database.database import checkUserSet
 
@@ -38,6 +39,11 @@ async def jsonYTDL(url, msg_id):
         return None, list
 
 async def ytdl_audio(client, message, link, reply_to_id, user_id, yt_quality, title):
+    await c.edit_message_text(
+        chat_id=message.chat.id,
+        text=lang.INIT_DOWNLOAD_FILE,
+        message_id=message.message_id
+    )
     download_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + "/" + title
     ext = "mp3"
     command_to_exec = [
@@ -63,4 +69,4 @@ async def ytdl_audio(client, message, link, reply_to_id, user_id, yt_quality, ti
         return e_response
     if t_response:
         s_vid, s_pht = await checkUserSet(int(user_id))
-        await pyro_upload(client, message, download_path, title, s_vid, s_pht, reply_to_id, message.id)
+        await pyro_upload(client, message, download_path, title, s_vid, s_pht, reply_to_id, message)
