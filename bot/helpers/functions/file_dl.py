@@ -7,9 +7,9 @@ from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.database.database import checkUserSet
 from bot.helpers.functions.display_progress import progress_for_aiodl
 
-dl = Downloader(download_path=Config.DOWNLOAD_BASE_DIR)
 
 async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, upload=None, i=0, ovrr_name=None):
+    dl = Downloader(download_path=f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}-{update.from_user.id}")
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
         status = await dl.status(uuid)

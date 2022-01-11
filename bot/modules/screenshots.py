@@ -1,8 +1,6 @@
 import os
 import time
 import asyncio
-
-from pyrogram.methods.invite_links import edit_chat_invite_link
 from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
@@ -82,7 +80,6 @@ async def screenshots(bot, update):
                         text=lang.ERR_USAGE,
                         reply_to_message_id=update.message_id
                     )
-            print(link, ss_no)
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
