@@ -18,7 +18,7 @@ yt_regex = "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 async def screenshots(bot, update):
     user_id = update.from_user.id
     await check_user(user_id)
-    if update.chat.id in Config.AUTH_CHAT:
+    if update.chat.id in [Config.AUTH_CHAT, Config.ADMINS]:
         # USING TG FILE
         try:
             file = update.reply_to_message.document
@@ -42,11 +42,14 @@ async def screenshots(bot, update):
             try:
                 file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.video.file_name}"
             except:
-                return await bot.send_message(
-                    chat_id=update.chat.id,
-                    text=lang.ERR_USAGE,
-                    reply_to_message_id=update.message_id
-                )
+                try:
+                    file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
+                except:
+                    return await bot.send_message(
+                        chat_id=update.chat.id,
+                        text=lang.ERR_USAGE,
+                        reply_to_message_id=update.message_id
+                    )
             c_time = time.time()
             file_path = await bot.download_media(
                 message=update.reply_to_message,

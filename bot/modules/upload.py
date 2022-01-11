@@ -13,7 +13,7 @@ yt_regex = "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 async def upload(bot, update):
     user_id = update.from_user.id
     await check_user(user_id)
-    if update.chat.id in Config.AUTH_CHAT:
+    if update.chat.id in [Config.AUTH_CHAT, Config.ADMINS]:
         try:
             link = update.text.split(" ", maxsplit=1)[1]
             reply_to_id = update.message_id 
