@@ -72,30 +72,8 @@ async def screenshots(bot, update):
                         chat_id=update.chat.id,
                         text=lang.ERR_USAGE,
                         reply_to_message_id=update.message_id
-                    )   
-            '''try:
-                link = update.text.split(" ", maxsplit=1)[1]
-                reply_to_id = update.message_id 
-                try:
-                    ss_no = link.split(" ", maxsplit=1)[1]
-                    link = link.split(" ", maxsplit=1)[0]
-                except:
-                    ss_no = Config.DEFAULT_SS_GEN_LIM
-            except:
-                try:
-                    link = update.reply_to_message.text
-                    reply_to_id = update.reply_to_message.message_id
-                    try:
-                        ss_no = update.text.split(" ", maxsplit=1)[1]
-                    except:
-                        ss_no = Config.DEFAULT_SS_GEN_LIM
-                except:
-                    return await bot.send_message(
-                        chat_id=update.chat.id,
-                        text=lang.ERR_USAGE,
-                        reply_to_message_id=update.message_id
-                    )'''
-
+                    )
+            LOGGER.info(f"{link - {ss_no}}")
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
