@@ -49,12 +49,19 @@ async def upload(bot, update):
             text=lang.INIT_DOWNLOAD_FILE,
             reply_to_message_id=update.message_id
         )
-        await file_dl(bot, update, link, init_msg, reply_to_id, upload=True)
-        await bot.send_message(
-            chat_id=update.chat.id,
-            text=lang.UPLOAD_SUCCESS,
-            reply_to_message_id=reply_to_id
-        )
+        try:
+            await file_dl(bot, update, link, init_msg, reply_to_id, upload=True)
+            await bot.send_message(
+                chat_id=update.chat.id,
+                text=lang.UPLOAD_SUCCESS,
+                reply_to_message_id=reply_to_id
+            )
+        except:
+            await bot.send_message(
+                chat_id=update.chat.id,
+                text=lang.COMMON_ERR,
+                reply_to_message_id=reply_to_id
+            )
         await bot.delete_messages(
             chat_id=update.chat.id,
             message_ids=init_msg.message_id
