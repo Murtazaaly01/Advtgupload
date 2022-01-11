@@ -1,15 +1,18 @@
 import os
+import re
 import time
 import asyncio
 from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.functions.file_dl import file_dl
-from bot.helpers.database.database import check_user, checkUserSet
+from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.functions.media_tools import checkDuration
 from bot.helpers.functions.media_tools import generate_screenshot
-from bot.helpers.functions.file_upload import pyro_upload
+from bot.helpers.database.database import check_user, checkUserSet
 from bot.helpers.functions.display_progress import progress_for_pyrogram
+
+yt_regex = "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 
 @Client.on_message(filters.command(CMD.SCREENSHOTS))
 async def screenshots(bot, update):
