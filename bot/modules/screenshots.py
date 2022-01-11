@@ -52,6 +52,28 @@ async def screenshots(bot, update):
         # USING LINK
         else:
             try:
+                link = update.reply_to_message.text
+                if link.startswith("http"):
+                    try:
+                        ss_no = update.text.split(" ", maxsplit=1)[1]
+                    except:
+                        ss_no = Config.DEFAULT_SS_GEN_LIM
+                    reply_to_id = update.reply_to_message.message_id
+            except:
+                try:
+                    link = update.text.split(" ", maxsplit=1)[1]
+                    try:
+                        ss_no = link.split(" ", maxsplit=1)[1]
+                    except:
+                        ss_no = Config.DEFAULT_SS_GEN_LIM
+                    reply_to_id = update.message_id
+                except:
+                    return await bot.send_message(
+                        chat_id=update.chat.id,
+                        text=lang.ERR_USAGE,
+                        reply_to_message_id=update.message_id
+                    )   
+            '''try:
                 link = update.text.split(" ", maxsplit=1)[1]
                 reply_to_id = update.message_id 
                 try:
@@ -72,7 +94,7 @@ async def screenshots(bot, update):
                         chat_id=update.chat.id,
                         text=lang.ERR_USAGE,
                         reply_to_message_id=update.message_id
-                    )
+                    )'''
 
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
