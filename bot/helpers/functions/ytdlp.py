@@ -40,18 +40,17 @@ async def jsonYTDL(url, msg_id):
 async def ytdl_audio(client, message, link, reply_to_id, user_id, yt_quality, title):
     download_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + "/" + title
     ext = "mp3"
-    if "youtube" in link:
-        command_to_exec = [
-            "yt-dlp",
-            "-c",
-            "--prefer-ffmpeg",
-            "--extract-audio",
-            "--audio-format", ext,
-            "--audio-quality", yt_quality,
-            link,
-            "-o", download_path,
-            "--no-warnings",
-        ]
+    command_to_exec = [
+        "yt-dlp",
+        "-c",
+        "--prefer-ffmpeg",
+        "--extract-audio",
+        "--audio-format", ext,
+        "--audio-quality", yt_quality,
+        link,
+        "-o", download_path,
+        "--no-warnings",
+    ]
     process = await asyncio.create_subprocess_exec(
         *command_to_exec,
         stdout=asyncio.subprocess.PIPE,
