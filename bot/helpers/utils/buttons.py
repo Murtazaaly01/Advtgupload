@@ -176,19 +176,19 @@ async def yt_audio_buttons(user_id):
         [
             InlineKeyboardButton(
                 text="MP3 - 64K",
-                callback_data=f"dlyta_{user_id}_64k"
+                callback_data=f"dlayt_{user_id}_64k"
             )
         ],
         [
             InlineKeyboardButton(
                 text="MP3 - 128K",
-                callback_data=f"dlyta_{user_id}_128k"
+                callback_data=f"dlayt_{user_id}_128k"
             )
         ],
         [
             InlineKeyboardButton(
                 text="MP3 - 320K",
-                callback_data=f"dlyta_{user_id}_320k"
+                callback_data=f"dlayt_{user_id}_320k"
             )
         ],
         [

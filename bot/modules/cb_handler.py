@@ -196,7 +196,7 @@ async def yt_audio_cb(c: Client, cb: CallbackQuery):
         reply_markup=await yt_audio_buttons(user_id)
     )
 
-@Client.on_callback_query(filters.regex(pattern="dlyta"))
+@Client.on_callback_query(filters.regex(pattern="dlayt"))
 async def yt_audio_dl_cb(c: Client, cb: CallbackQuery):
     user_id = cb.data.split("_")[1]
     if int(user_id) != cb.from_user.id:
