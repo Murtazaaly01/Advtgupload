@@ -1,6 +1,8 @@
 import os
 import time
 import asyncio
+
+from pyrogram.methods.invite_links import edit_chat_invite_link
 from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
@@ -17,9 +19,14 @@ async def screenshots(bot, update):
     await check_user(user_id)
     if update.chat.id in Config.AUTH_CHAT:
         # USING TG FILE
-        if ((update.reply_to_message.document is not None) or
-            (update.reply_to_message.video is not None)):
-            
+        try:
+            file = update.reply_to_message.document
+        except:
+            try:
+                file = update.reply_to_message.video
+            except:
+                file = None
+        if file:
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
