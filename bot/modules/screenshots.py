@@ -48,7 +48,7 @@ async def screenshots(bot, update):
                     c_time
                 )
             )
-            print(downloaded_path)
+            print(file_path)
         # USING LINK
         else:
             try:
