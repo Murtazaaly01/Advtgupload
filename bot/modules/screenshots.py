@@ -18,7 +18,7 @@ yt_regex = "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 async def screenshots(bot, update):
     user_id = update.from_user.id
     await check_user(user_id)
-    if update.chat.id in (Config.AUTH_CHAT or Config.ADMINS):
+    if update.chat.id in Config.AUTH_CHAT or user_id in Config.ADMINS:
         # USING TG FILE
         try:
             file = update.reply_to_message.document
