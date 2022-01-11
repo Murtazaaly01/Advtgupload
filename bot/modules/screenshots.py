@@ -38,7 +38,7 @@ async def screenshots(bot, update):
                     reply_to_message_id=update.message_id
                 )
             c_time = time.time()
-            await bot.download_media(
+            downloaded_path = await bot.download_media(
                 message=update.reply_to_message,
                 file_name=file_path,
                 progress=progress_for_pyrogram,
@@ -48,6 +48,7 @@ async def screenshots(bot, update):
                     c_time
                 )
             )
+            print(downloaded_path)
             file_path = Config.WORK_DIR + file_path
         # USING LINK
         else:
