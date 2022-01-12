@@ -13,15 +13,20 @@ async def rename(bot, update):
     await check_user(user_id)
     if update.chat.id in Config.AUTH_CHAT or user_id in Config.ADMINS:
         try:
-            file = update.reply_to_message.document
+            file = update.reply_to_message
         except:
-            try:
-                file = update.reply_to_message.media
-            except:
-                file = None
+            file = None
+        try:
+            new_name = update.text.split(" ", maxsplit=1)[1]
+        except:
+            return await bot.send_message(
+                chat_id=update.chat.id,
+                text=lang.ERR_USAGE,
+                reply_to_message_id=update.message_id
+            )
         if file:
             reply_to_id = update.reply_to_message.message_id
-            new_name = update.text.split(" ", maxsplit=1)[1]
+            
             new_name_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{new_name}"
             file_path = Config.DOWNLOADS_FOLDER + "/" + f"{reply_to_id}" + "/"
             init_msg = await bot.send_message(
@@ -66,3 +71,10 @@ async def rename(bot, update):
                 chat_id=update.chat.id,
                 message_ids=init_msg.message_id
             )
+        else:
+            await bot.send_message(
+                chat_id=update.chat.id,
+                text=lang.ERR_USAGE,
+                reply_to_message_id=update.message_id
+            )
+            
