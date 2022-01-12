@@ -1,5 +1,4 @@
 import os
-import re
 import time
 import asyncio
 from bot import LOGGER, Config, CMD
@@ -11,8 +10,6 @@ from bot.helpers.functions.media_tools import checkDuration
 from bot.helpers.functions.media_tools import generate_screenshot
 from bot.helpers.database.database import check_user, checkUserSet
 from bot.helpers.functions.display_progress import progress_for_pyrogram
-
-yt_regex = "^(http(s)?:\/\/)?((w){3}.)?youtu(be|.be)?(\.com)?\/.+"
 
 @Client.on_message(filters.command(CMD.SCREENSHOTS))
 async def screenshots(bot, update):
@@ -40,10 +37,10 @@ async def screenshots(bot, update):
 
             reply_to_id = update.reply_to_message.message_id
             try:
-                file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.video.file_name}"
+                file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{reply_to_id}" + "/" + f"{update.reply_to_message.video.file_name}"
             except:
                 try:
-                    file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + f"{update.reply_to_message.document.file_name}"
+                    file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{reply_to_id}" + "/" + f"{update.reply_to_message.document.file_name}"
                 except:
                     return await bot.send_message(
                         chat_id=update.chat.id,

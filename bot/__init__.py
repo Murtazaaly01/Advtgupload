@@ -78,3 +78,5 @@ class CMD(object):
     UPLOAD = ["upload", f"upload@{bot}"]
     SCREENSHOTS  = ["screenshots", f"screenshots@{bot}"]
     SHELL = ["shell", f"shell@{bot}"]
+    YTDL =  ["ytdl", f"ytdl@{bot}"]
+    RENAME = ["rename", f"rename@{bot}"]
