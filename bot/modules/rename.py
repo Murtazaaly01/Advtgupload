@@ -23,7 +23,7 @@ async def rename(bot, update):
             reply_to_id = update.reply_to_message.message_id
             new_name = update.text.split(" ", maxsplit=1)[1]
             new_name_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{new_name}"
-            file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{reply_to_id}" + "/"
+            file_path = Config.DOWNLOADS_FOLDER + "/" + f"{reply_to_id}" + "/"
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
