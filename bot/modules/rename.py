@@ -1,7 +1,7 @@
 import os
 import time
-from pyrogram import Client, filters
 from bot import Config, CMD, LOGGER
+from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.database.database import check_user, checkUserSet
@@ -27,7 +27,7 @@ async def rename(bot, update):
         if file:
             reply_to_id = update.reply_to_message.message_id
             new_name_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{new_name}"
-            file_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/"
+            file_path = f"{Config.DOWNLOADS_FOLDER}/{reply_to_id}/"
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
