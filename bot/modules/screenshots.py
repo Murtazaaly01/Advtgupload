@@ -16,70 +16,70 @@ async def screenshots(bot, update):
     user_id = update.from_user.id
     await check_user(user_id)
     if update.chat.id in Config.AUTH_CHAT or user_id in Config.ADMINS:
-        # USING TG FILE
-        try:
-            file = update.reply_to_message.document
-        except:
-            try:
-                file = update.reply_to_message.video
-            except:
-                file = None
-        if file:
-            init_msg = await bot.send_message(
-                chat_id=update.chat.id,
-                text=lang.INIT_DOWNLOAD_FILE,
-                reply_to_message_id=update.message_id
-            )
+        # CASE WHERE REPLY CAN BE A LINK OR FILE
+        if update.reply_to_message:
+            reply_to_id = update.reply_to_message.message_id
             try:
                 ss_no = update.text.split(" ", maxsplit=1)[1]
             except:
                 ss_no = Config.DEFAULT_SS_GEN_LIM
-
-            reply_to_id = update.reply_to_message.message_id
-            file_path = Config.DOWNLOAD_BASE_DIR + "/" + f"{reply_to_id}" + "/"
-            c_time = time.time()
-            file_path = await bot.download_media(
-                message=update.reply_to_message,
-                file_name=file_path,
-                progress=progress_for_pyrogram,
-                progress_args=(
-                    lang.INIT_DOWNLOAD_FILE,
-                    init_msg,
-                    c_time
-                )
-            )
-        # USING LINK
-        else:
             try:
-                link = update.reply_to_message.text
-                if link.startswith("http"):
-                    try:
-                        ss_no = update.text.split(" ", maxsplit=1)[1]
-                    except:
-                        ss_no = Config.DEFAULT_SS_GEN_LIM
-                    reply_to_id = update.reply_to_message.message_id
+                init_msg = await bot.send_message(
+                    chat_id=update.chat.id,
+                    text=lang.INIT_DOWNLOAD_FILE,
+                    reply_to_message_id=update.message_id
+                )
+                c_time = time.time()
+                file_path = await bot.download_media(
+                    message=update.reply_to_message,
+                    file_name=f"{Config.DOWNLOADS_FOLDER}/{reply_to_id}/",
+                    progress=progress_for_pyrogram,
+                    progress_args=(
+                        lang.INIT_DOWNLOAD_FILE,
+                        init_msg,
+                        c_time
+                    )
+                )
             except:
                 try:
-                    link = update.text.split(" ", maxsplit=1)[1]
-                    try:
-                        ss_no = link.split(" ", maxsplit=1)[1]
-                        link = link.split(" ", maxsplit=1)[0]
-                    except:
-                        ss_no = Config.DEFAULT_SS_GEN_LIM
-                    reply_to_id = update.message_id
+                    link = update.reply_to_message.text
+                    if link.startswith("http"):
+                        pass
+                    else:
+                        return await bot.send_message(
+                            chat_id=update.chat.id,
+                            text=lang.ERR_USAGE,
+                            reply_to_message_id=update.message_id
+                        )
                 except:
                     return await bot.send_message(
                         chat_id=update.chat.id,
                         text=lang.ERR_USAGE,
                         reply_to_message_id=update.message_id
                     )
+        else:
+            try:
+                link = update.text.split(" ", maxsplit=1)[1]
+                reply_to_id = update.message_id
+                try:
+                    ss_no = link.split(" ", maxsplit=1)[1]
+                    link = link.split(" ", maxsplit=1)[0]
+                except:
+                    ss_no = Config.DEFAULT_SS_GEN_LIM
+            except:
+                return await bot.send_message(
+                    chat_id=update.chat.id,
+                    text=lang.ERR_USAGE,
+                    reply_to_message_id=update.message_id
+                )
             init_msg = await bot.send_message(
-                chat_id=update.chat.id,
-                text=lang.INIT_DOWNLOAD_FILE,
-                reply_to_message_id=update.message_id
-            )
+                    chat_id=update.chat.id,
+                    text=lang.INIT_DOWNLOAD_FILE,
+                    reply_to_message_id=update.message_id
+                )
+        if link:
             file_path = await file_dl(bot, update, link, init_msg, reply_to_id, return_path=True, upload=False)
-        # COMMON PART
+
         if file_path:
             await bot.edit_message_text(
                 chat_id=update.chat.id,
