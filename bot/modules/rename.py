@@ -28,7 +28,6 @@ async def rename(bot, update):
             reply_to_id = update.reply_to_message.message_id
             
             new_name_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{new_name}"
-            file_path = Config.DOWNLOADS_FOLDER + "/" + f"{reply_to_id}" + "/"
             init_msg = await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.INIT_DOWNLOAD_FILE,
@@ -38,7 +37,7 @@ async def rename(bot, update):
                 c_time = time.time()
                 file_path = await bot.download_media(
                     message=update.reply_to_message,
-                    file_name=file_path,
+                    file_name=new_name_path,
                     progress=progress_for_pyrogram,
                     progress_args=(
                         lang.INIT_DOWNLOAD_FILE,
@@ -50,14 +49,6 @@ async def rename(bot, update):
                 return await bot.send_message(
                     chat_id=update.chat.id,
                     text=lang.COMMON_ERR,
-                    reply_to_message_id=update.message_id
-                )
-            try:
-                os.rename(file_path, new_name_path)
-            except Exception as e:
-                return await bot.send_message(
-                    chat_id=update.chat.id,
-                    text=e,
                     reply_to_message_id=update.message_id
                 )
             video, photo = await checkUserSet(update.from_user.id)
