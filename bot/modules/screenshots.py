@@ -40,6 +40,7 @@ async def screenshots(bot, update):
                         c_time
                     )
                 )
+                link = None
             except:
                 try:
                     link = update.reply_to_message.text
