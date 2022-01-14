@@ -33,30 +33,23 @@ async def rename(bot, update):
                 text=lang.INIT_DOWNLOAD_FILE,
                 reply_to_message_id=update.message_id
             )
-            try:
-                c_time = time.time()
-                file_path = await bot.download_media(
-                    message=update.reply_to_message,
-                    file_name=file_path,
-                    progress=progress_for_pyrogram,
-                    progress_args=(
-                        lang.INIT_DOWNLOAD_FILE,
-                        init_msg,
-                        c_time
-                    )
+            c_time = time.time()
+            org_file_path = await bot.download_media(
+                message=update.reply_to_message,
+                file_name=file_path,
+                progress=progress_for_pyrogram,
+                progress_args=(
+                    lang.INIT_DOWNLOAD_FILE,
+                    init_msg,
+                    c_time
                 )
-            except:
+            )
+            try:
+                os.rename(org_file_path, new_name_path)
+            except Exception as e:
                 return await bot.send_message(
                     chat_id=update.chat.id,
-                    text=lang.COMMON_ERR,
-                    reply_to_message_id=update.message_id
-                )
-            try:
-                os.rename(file_path, new_name_path)
-            except:
-                return await bot.send_message(
-                    chat_id=update.chat.id,
-                    text=lang.COMMON_ERR,
+                    text=e,
                     reply_to_message_id=update.message_id
                 )
             video, photo = await checkUserSet(update.from_user.id)
