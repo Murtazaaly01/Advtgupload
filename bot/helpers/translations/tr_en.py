@@ -50,7 +50,9 @@ Default amount is 8.
 
     ERR_USAGE = "Use <code>/help</code> to see how to use me."
 
-    INIT_INDEX_LINK = "<b>Index Links Found</b>\nTrying to fetch child links..."
+    INIT_INDEX_LINK = "Trying to fetch child links..."
+    INDEX_LINK_FOUND = "Found {} child links.\nTrying to download the files..."
+
     INIT_DOWNLOAD_FILE = "Trying to download file..."
     INIT_UPLOAD_FILE = "Trying to upload file..."
     START_DOWNLOAD = "Downloading File......."
