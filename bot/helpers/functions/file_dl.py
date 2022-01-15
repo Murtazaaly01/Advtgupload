@@ -42,8 +42,9 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, \
                 filename = rename
                 new_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{rename}"
                 os.rename(file_path, new_file_path)
+                file_path = new_file_path
             s_vid, s_pht = await checkUserSet(update.from_user.id)
-            await pyro_upload(bot, update, new_file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
+            await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
             await clean_up(file_path, reply_to_id)
     else:
         if i < 5:
