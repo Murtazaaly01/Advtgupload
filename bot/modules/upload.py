@@ -65,10 +65,10 @@ async def upload(bot, update):
                 text=lang.UPLOAD_SUCCESS,
                 reply_to_message_id=reply_to_id
             )
-        except:
+        except Exception as e:
             await bot.send_message(
                 chat_id=update.chat.id,
-                text=lang.COMMON_ERR,
+                text=e,
                 reply_to_message_id=reply_to_id
             )
         await bot.delete_messages(
