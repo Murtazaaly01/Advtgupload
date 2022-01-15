@@ -36,7 +36,7 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, \
     file_path = status['download_path']
     filename = status['filename']
 
-    if filename != "Unknown":
+    if filename != "Unknown" and not filename.endswith("/"):
         if upload:
             if rename:
                 filename = rename
