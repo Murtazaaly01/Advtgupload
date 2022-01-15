@@ -1,3 +1,4 @@
+import os
 import asyncio
 from pyaiodl import Downloader
 from bot import Config, LOGGER
@@ -9,7 +10,8 @@ from bot.helpers.utils.storage_clean import clean_up
 from bot.helpers.functions.display_progress import progress_for_aiodl
 
 
-async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, upload=None, i=0, ovrr_name=None):
+async def file_dl(bot, update, link, init_msg, reply_to_id, \
+            return_path=None, upload=None, i=0, ovrr_name=None, rename=None):
     dl = Downloader(download_path=f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}")
     uuid = await dl.download(link)
     while await dl.is_active(uuid):
@@ -36,6 +38,9 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, up
 
     if filename != "Unknown":
         if upload:
+            if rename:
+                new_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{rename}"
+                os.rename(file_path, new_file_path)
             s_vid, s_pht = await checkUserSet(update.from_user.id)
             await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
             await clean_up(file_path, reply_to_id)

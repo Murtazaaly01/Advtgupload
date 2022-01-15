@@ -76,6 +76,7 @@ class CMD(object):
     HELP = ["help", f"help@{bot}"]
     SETTINGS = ["settings", f"settings@{bot}"]
     UPLOAD = ["upload", f"upload@{bot}"]
+    INDEX_UPLOAD = ["index_upload", f"index_upload@{bot}"]
     SCREENSHOTS  = ["screenshots", f"screenshots@{bot}"]
     SHELL = ["shell", f"shell@{bot}"]
     YTDL =  ["ytdl", f"ytdl@{bot}"]

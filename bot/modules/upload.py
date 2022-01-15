@@ -17,10 +17,19 @@ async def upload(bot, update):
         try:
             link = update.text.split(" ", maxsplit=1)[1]
             reply_to_id = update.message_id 
+            try:
+                rename_name = link.split(" | ")[1]
+                link = link.split(" | ")[0]
+            except:
+                rename_name = None
         except:
             try:
                 link = update.reply_to_message.text
                 reply_to_id = update.reply_to_message.message_id
+                try:
+                    rename_name = update.text.split(" | ", maxsplit=1)[1]
+                except:
+                    rename_name = None
             except:
                 return await bot.send_message(
                     chat_id=update.chat.id,
@@ -50,7 +59,7 @@ async def upload(bot, update):
             reply_to_message_id=update.message_id
         )
         try:
-            await file_dl(bot, update, link, init_msg, reply_to_id, upload=True)
+            await file_dl(bot, update, link, init_msg, reply_to_id, upload=True, rename=rename_name)
             await bot.send_message(
                 chat_id=update.chat.id,
                 text=lang.UPLOAD_SUCCESS,
@@ -66,3 +75,4 @@ async def upload(bot, update):
             chat_id=update.chat.id,
             message_ids=init_msg.message_id
         )
+
