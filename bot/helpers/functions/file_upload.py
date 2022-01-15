@@ -1,6 +1,5 @@
 import os
 import time
-import shutil
 from bot import LOGGER, Config
 from hachoir.parser import createParser
 from bot.helpers.translations import lang
@@ -90,8 +89,6 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 chat_id=Config.LOG_CHANNEL_ID
             )
     # CLEAN UP
-    os.remove(file_path)
-    shutil.rmtree(Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id))
     try:
         os.remove(thumb)
     except:

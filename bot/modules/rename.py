@@ -3,6 +3,7 @@ import time
 from bot import Config, CMD, LOGGER
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
+from bot.helpers.utils.storage_clean import clean_up
 from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.database.database import check_user, checkUserSet
 from bot.helpers.functions.display_progress import progress_for_pyrogram
@@ -63,6 +64,7 @@ async def rename(bot, update):
                 chat_id=update.chat.id,
                 message_ids=init_msg.message_id
             )
+            await clean_up(file_path, reply_to_id)
         else:
             await bot.send_message(
                 chat_id=update.chat.id,

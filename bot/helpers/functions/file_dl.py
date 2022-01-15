@@ -5,6 +5,7 @@ from bot.helpers.translations import lang
 from pyrogram.errors import MessageNotModified
 from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.database.database import checkUserSet
+from bot.helpers.utils.storage_clean import clean_up
 from bot.helpers.functions.display_progress import progress_for_aiodl
 
 
@@ -37,6 +38,7 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, return_path=None, up
         if upload:
             s_vid, s_pht = await checkUserSet(update.from_user.id)
             await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
+            await clean_up(file_path, reply_to_id)
     else:
         if i < 5:
             await file_dl(bot, update, link, init_msg, reply_to_id, return_path, upload, i+1)

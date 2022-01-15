@@ -5,6 +5,7 @@ from bot import LOGGER, Config, CMD
 from pyrogram import Client, filters
 from bot.helpers.translations import lang
 from bot.helpers.functions.file_dl import file_dl
+from bot.helpers.utils.storage_clean import clean_up
 from bot.helpers.functions.file_upload import pyro_upload
 from bot.helpers.functions.media_tools import checkDuration
 from bot.helpers.functions.media_tools import generate_screenshot
@@ -111,6 +112,7 @@ async def screenshots(bot, update):
                 for image in images:
                     await pyro_upload(bot, update, image, f"SS - {i}.jpg", video, photo, reply_to_id, init_msg)
                     i += 1
+                    await clean_up(image, reply_to_id)
                     await asyncio.sleep(1)
                     
                 await bot.delete_messages(
