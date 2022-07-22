@@ -77,12 +77,8 @@ async def change_video_type_cb(c: Client, cb: CallbackQuery):
     user_id = cb.message.reply_to_message.from_user.id
     user_name = cb.message.reply_to_message.from_user.first_name
     video_type, photo_type = await fetch_media_details(user_id)
-    if video_type == "video":
-        video_type = "doc"
-        await change_video_type_db(user_id, video_type)
-    else:
-        video_type = "video"
-        await change_video_type_db(user_id, video_type)
+    video_type = "doc" if video_type == "video" else "video"
+    await change_video_type_db(user_id, video_type)
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.SETTINGS_TEXT.format(user_name) + "\n\nChanged Video Type to " + video_type,
@@ -99,12 +95,8 @@ async def change_photo_type_cb(c: Client, cb: CallbackQuery):
     user_id = cb.message.reply_to_message.from_user.id
     user_name = cb.message.reply_to_message.from_user.first_name
     video_type, photo_type = await fetch_media_details(user_id)
-    if photo_type == "photo":
-        photo_type = "doc"
-        await change_photo_type_db(user_id, photo_type)
-    else:
-        photo_type = "photo"
-        await change_photo_type_db(user_id, photo_type)
+    photo_type = "doc" if photo_type == "photo" else "photo"
+    await change_photo_type_db(user_id, photo_type)
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.SETTINGS_TEXT.format(user_name) + "\nChanged Photo Type to " + photo_type,
@@ -124,7 +116,7 @@ async def close_cb(c: Client, cb: CallbackQuery):
     )
     try:
         reply_to_id = cb.message.reply_to_message.message_id
-        json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+        json_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{str(reply_to_id)}.json"
         os.remove(json_file_path)
     except:
         pass
@@ -135,7 +127,6 @@ async def close_cb(c: Client, cb: CallbackQuery):
         )
     except:
         LOGGER.warning(f"Couldn't delete message in {cb.message.chat.id}")
-        pass
 
 @Client.on_callback_query(filters.regex(pattern="y-t"))
 async def yt_cb(c: Client, cb: CallbackQuery):
@@ -162,30 +153,29 @@ async def ytdl_cb(c: Client, cb: CallbackQuery):
     ext = cb.data.split("_")[1]
     vcodec = cb.data.split("_")[2]
 
-    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+    json_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{str(reply_to_id)}.json"
     with open(json_file_path, "r", encoding="utf8") as f:
         response_json = json.load(f)
     title = response_json["title"]
     thumb = response_json["thumbnail"]
     for format in response_json["formats"]:
-        if format["ext"] == ext:
-            if format["vcodec"] == vcodec:
-                url = format["url"]
-                resolution = format["format_note"]
-                break
+        if format["ext"] == ext and format["vcodec"] == vcodec:
+            url = format["url"]
+            resolution = format["format_note"]
+            break
     await c.edit_message_text(
         chat_id=cb.message.chat.id,
         text=lang.INIT_DOWNLOAD_FILE,
         message_id=cb.message.message_id
     )
-    new_filename = title + "_" + resolution + "." + ext
-    new_filepath = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + new_filename
+    new_filename = f"{title}_{resolution}.{ext}"
+    new_filepath = f"{Config.DOWNLOAD_BASE_DIR}/{str(reply_to_id)}{new_filename}"
     file_path = await file_dl(c, cb.message, url, cb.message, reply_to_id, return_path=True, upload=False, ovrr_name=new_filename)
     if file_path:
         os.rename(file_path, new_filepath)
         video, photo = await checkUserSet(int(user_id))
         await dl_yt_thumb(thumb, reply_to_id)
-        thumb_path = Config.DOWNLOAD_BASE_DIR + "/" + f"thum_{reply_to_id}.jpg"
+        thumb_path = f"{Config.DOWNLOAD_BASE_DIR}/" + f"thum_{reply_to_id}.jpg"
         await pyro_upload(c, cb.message, new_filepath, new_filename, video, photo, reply_to_id, cb.message, thumb_path)
         await c.delete_messages(
             chat_id=cb.message.chat.id,
@@ -215,7 +205,7 @@ async def yt_audio_dl_cb(c: Client, cb: CallbackQuery):
         return
     reply_to_id = cb.message.reply_to_message.message_id
     audio = cb.data.split("_")[2]
-    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+    json_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{str(reply_to_id)}.json"
     with open(json_file_path, "r", encoding="utf8") as f:
             response_json = json.load(f)
     yt_link = response_json["original_url"]

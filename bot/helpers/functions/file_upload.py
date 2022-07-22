@@ -48,10 +48,6 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 start_time
             )
         )
-        if Config.ALLOW_DUMP:
-            await s_msg.copy(   
-                chat_id=Config.LOG_CHANNEL_ID
-            )
     elif filename.endswith(photo_files) and s_pht:
         s_msg = await bot.send_photo(
             chat_id=update.chat.id,
@@ -65,11 +61,7 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 init_msg,
                 start_time
             )
-        ) 
-        if Config.ALLOW_DUMP:
-            await s_msg.copy(   
-                chat_id=Config.LOG_CHANNEL_ID
-            )
+        )
     else:
         s_msg = await bot.send_document(
             chat_id=update.chat.id,
@@ -84,10 +76,10 @@ async def pyro_upload(bot, update, file_path, filename, s_vid,\
                 start_time
             )
         )
-        if Config.ALLOW_DUMP:
-            await s_msg.copy(   
-                chat_id=Config.LOG_CHANNEL_ID
-            )
+    if Config.ALLOW_DUMP:
+        await s_msg.copy(   
+            chat_id=Config.LOG_CHANNEL_ID
+        )
     # CLEAN UP
     try:
         os.remove(thumb)

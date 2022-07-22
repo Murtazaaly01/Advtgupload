@@ -124,28 +124,27 @@ async def ytdl_buttons(list, user_id):
             )
             i += 1
         i += 1
-    inline_keyboard.append(string_buttons)
-    inline_keyboard.append(
-        [
-            InlineKeyboardButton(
-                text="AUDIOS",
-                callback_data=f"y-a_{user_id}"
-            )
-        ]
+    inline_keyboard.extend(
+        (
+            string_buttons,
+            [
+                InlineKeyboardButton(
+                    text="AUDIOS", callback_data=f"y-a_{user_id}"
+                )
+            ],
+            [
+                InlineKeyboardButton(
+                    text="Close", callback_data=f"close_{user_id}"
+                )
+            ],
+        )
     )
-    inline_keyboard.append(
-        [
-            InlineKeyboardButton(
-                text="Close",
-                callback_data=f"close_{user_id}"
-            )
-        ]
-    )
+
     return InlineKeyboardMarkup(inline_keyboard)
 
 # 2ND MENU FOR CHOOSING VIDEO EXTENSION
 async def yt_ext_buttons(resolution, reply_to_id, user_id):
-    json_file_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + ".json"
+    json_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{str(reply_to_id)}.json"
     with open(json_file_path, "r", encoding="utf8") as f:
             response_json = json.load(f)
     buttons = []

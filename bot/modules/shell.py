@@ -18,8 +18,7 @@ def shell(bot, update):
     stdout, stderr = process.communicate()
     reply = ''
     stderr = stderr.decode()
-    stdout = stdout.decode()
-    if stdout:
+    if stdout := stdout.decode():
         reply += f"*Stdout*\n`{stdout}`\n"
     if stderr:
         reply += f"*Stderr*\n`{stderr}`\n"

@@ -29,24 +29,14 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, \
             pass
         except Exception as e:
             LOGGER.error(e)
-        
+
         await asyncio.sleep(Config.STATUS_UPDATE_INTERVAL)
     # For Accurate Values
     status = await dl.status(uuid)
     file_path = status['download_path']
     filename = status['filename']
 
-    if filename != "Unknown" and not filename.endswith("/"):
-        if upload:
-            if rename:
-                filename = rename
-                new_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{rename}"
-                os.rename(file_path, new_file_path)
-                file_path = new_file_path
-            s_vid, s_pht = await checkUserSet(update.from_user.id)
-            await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
-            await clean_up(file_path, reply_to_id)
-    else:
+    if filename == "Unknown" or filename.endswith("/"):
         if i < 5:
             await file_dl(bot, update, link, init_msg, reply_to_id, return_path, upload, i+1)
         else:
@@ -55,5 +45,14 @@ async def file_dl(bot, update, link, init_msg, reply_to_id, \
                 text=lang.COMMON_ERR,
                 reply_to_message_id=reply_to_id
             )
+    elif upload:
+        if rename:
+            filename = rename
+            new_file_path = f"{Config.DOWNLOAD_BASE_DIR}/{reply_to_id}/{rename}"
+            os.rename(file_path, new_file_path)
+            file_path = new_file_path
+        s_vid, s_pht = await checkUserSet(update.from_user.id)
+        await pyro_upload(bot, update, file_path, filename, s_vid, s_pht, reply_to_id, init_msg)
+        await clean_up(file_path, reply_to_id)
     if return_path:
         return file_path

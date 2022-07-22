@@ -21,20 +21,15 @@ class Database:
     
     async def is_user_exist(self, user_id):
         user = await self.col.find_one({'id': (user_id)})
-        if user is None:
-          return False
-        else:
-          return True
+        return user is not None
 
     async def video_type(self, user_id):
         user = await self.col.find_one({'id': (user_id)})
-        video_type = user.get('video_type')
-        return video_type
+        return user.get('video_type')
 
     async def photo_type(self, user_id):
         user = await self.col.find_one({'id': (user_id)})
-        photo_type = user.get('photo_type')
-        return photo_type
+        return user.get('photo_type')
 
     async def change_video_type(self, user_id, video_type):
         self.col.update_one(

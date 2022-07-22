@@ -21,9 +21,11 @@ async def progress_for_pyrogram(
         elapsed_time = TimeFormatter(milliseconds=elapsed_time)
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
         progress = "[{0}{1}] \nP: {2}%\n".format(
-            ''.join(["▰" for i in range(math.floor(percentage / 10))]),
-            ''.join(["▱" for i in range(10 - math.floor(percentage / 10))]),
-            round(percentage, 2))
+            ''.join(["▰" for _ in range(math.floor(percentage / 10))]),
+            ''.join(["▱" for _ in range(10 - math.floor(percentage / 10))]),
+            round(percentage, 2),
+        )
+
         tmp = progress + "{0} of {1}\nSpeed: {2}/s\nETA: {3}\n".format(
             humanbytes(current),
             humanbytes(total),
@@ -32,12 +34,7 @@ async def progress_for_pyrogram(
             estimated_total_time if estimated_total_time != '' else "0 s"
         )
         try:
-            await message.edit(
-                text="{}\n {}".format(
-                    ud_type,
-                    tmp
-                )
-            )
+            await message.edit(text=f"{ud_type}\n {tmp}")
         except:
             pass
         await asyncio.sleep(Config.STATUS_UPDATE_INTERVAL)
@@ -51,18 +48,21 @@ def humanbytes(size):
     while size > power:
         size /= power
         n += 1
-    return str(round(size, 2)) + " " + Dic_powerN[n] + 'B'
+    return f"{str(round(size, 2))} {Dic_powerN[n]}B"
 
 def TimeFormatter(milliseconds: int) -> str:
-    seconds, milliseconds = divmod(int(milliseconds), 1000)
+    seconds, milliseconds = divmod(milliseconds, 1000)
     minutes, seconds = divmod(seconds, 60)
     hours, minutes = divmod(minutes, 60)
     days, hours = divmod(hours, 24)
-    tmp = ((str(days) + "d, ") if days else "") + \
-        ((str(hours) + "h, ") if hours else "") + \
-        ((str(minutes) + "m, ") if minutes else "") + \
-        ((str(seconds) + "s, ") if seconds else "") + \
-        ((str(milliseconds) + "ms, ") if milliseconds else "")
+    tmp = (
+        (f"{str(days)}d, " if days else "")
+        + (f"{str(hours)}h, " if hours else "")
+        + (f"{str(minutes)}m, " if minutes else "")
+        + (f"{str(seconds)}s, " if seconds else "")
+        + (f"{str(milliseconds)}ms, " if milliseconds else "")
+    )
+
     return tmp[:-2]
 
 async def progress_for_aiodl(r, ovrr_name=None):
@@ -74,13 +74,13 @@ async def progress_for_aiodl(r, ovrr_name=None):
     progress = r['progress']
     speed = r['download_speed']
     progress_bar = "{0}{1}".format(
-        ''.join(["▰" for i in range(math.floor(progress / 10))]),
-        ''.join(["▱" for i in range(10 - math.floor(progress / 10))])
+        ''.join(["▰" for _ in range(math.floor(progress / 10))]),
+        ''.join(["▱" for _ in range(10 - math.floor(progress / 10))]),
     )
-    msg = "Filename :\n<code>{}</code>\n\n".format(file_name)
-    msg += "<b>╭─ Progress\n│\n├</b>"
+
+    msg = f"Filename :\n<code>{file_name}</code>\n\n" + "<b>╭─ Progress\n│\n├</b>"
     msg += "  {0}<b>\n│\n├</b>".format(progress_bar)
     msg += "<b> Speed : <code>{0}</code>\n│\n├</b>".format(speed)
-    msg += "<b> Done : <code>{}</code>\n│\n╰─</b>".format(downloaded)
-    msg += "<b> Size : <code>{}</code></b>".format(size)
+    msg += f"<b> Done : <code>{downloaded}</code>\n│\n╰─</b>"
+    msg += f"<b> Size : <code>{size}</code></b>"
     return msg

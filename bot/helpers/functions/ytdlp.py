@@ -28,7 +28,7 @@ async def jsonYTDL(url, msg_id):
         if "\n" in x_reponse:
             x_reponse, _ = x_reponse.split("\n")
         response_json = json.loads(x_reponse)
-        save_path = Config.DOWNLOAD_BASE_DIR + "/" + str(msg_id) + ".json"
+        save_path = f"{Config.DOWNLOAD_BASE_DIR}/{str(msg_id)}.json"
         with open(save_path, "w", encoding="utf8") as outfile:
             json.dump(response_json, outfile, ensure_ascii=False)
         if "formats" in response_json:
@@ -44,7 +44,7 @@ async def ytdl_audio(client, message, link, reply_to_id, user_id, yt_quality, ti
         text=lang.INIT_DOWNLOAD_FILE,
         message_id=message.message_id
     )
-    download_path = Config.DOWNLOAD_BASE_DIR + "/" + str(reply_to_id) + "/" + title
+    download_path = f"{Config.DOWNLOAD_BASE_DIR}/{str(reply_to_id)}/{title}"
     ext = "mp3"
     command_to_exec = [
         "yt-dlp",

@@ -45,9 +45,7 @@ async def screenshots(bot, update):
             except:
                 try:
                     link = update.reply_to_message.text
-                    if link.startswith("http"):
-                        pass
-                    else:
+                    if not link.startswith("http"):
                         return await bot.send_message(
                             chat_id=update.chat.id,
                             text=lang.ERR_USAGE,
@@ -100,7 +98,7 @@ async def screenshots(bot, update):
                     message_ids=init_msg.message_id
                 )
 
-            ss_dir = Config.DOWNLOAD_BASE_DIR + "/" + f"{user_id}" + "/" + "screenshots"
+            ss_dir = f"{Config.DOWNLOAD_BASE_DIR}/" + f"{user_id}" + "/" + "screenshots"
             if not os.path.isdir(ss_dir):
                 os.makedirs(ss_dir)
             LOGGER.info(f"Generating {ss_no} screenshots for {user_id}")
@@ -114,7 +112,7 @@ async def screenshots(bot, update):
                     i += 1
                     await clean_up(image, reply_to_id)
                     await asyncio.sleep(1)
-                    
+
                 await bot.delete_messages(
                     chat_id=update.chat.id,
                     message_ids=init_msg.message_id

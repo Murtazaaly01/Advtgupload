@@ -13,7 +13,7 @@ async def generate_thumbnail(file):
         duration = str(metadata.get("duration") / 2)
     else:
         duration = "00:00:00.000"
-        
+
     ss_command = [
         "ffmpeg",
         "-ss",
@@ -32,22 +32,18 @@ async def generate_thumbnail(file):
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
-    if os.path.lexists(thumb_name):
-        return thumb_name
-    else:
-        return None
+    return thumb_name if os.path.lexists(thumb_name) else None
 
 async def generate_screenshot(file_path, output_path , no_photos, min_duration=5):
     metadata = extractMetadata(createParser(file_path))
     duration = 0
-    if metadata is not None:
-        if metadata.has("duration"):
-            duration = metadata.get('duration').seconds
+    if metadata is not None and metadata.has("duration"):
+        duration = metadata.get('duration').seconds
     if duration > min_duration:
         images = []
         ttl_step = duration // no_photos
         current_ttl = ttl_step
-        for looper in range(0, no_photos):
+        for _ in range(no_photos):
             ss_img = await take_screen_shot(file_path, output_path, current_ttl)
             current_ttl = current_ttl + ttl_step
             images.append(ss_img)
@@ -80,21 +76,17 @@ async def take_screen_shot(video_file, output_directory, ttl):
     stdout, stderr = await process.communicate()
     e_response = stderr.decode().strip()
     t_response = stdout.decode().strip()
-    if os.path.lexists(out_put_file_name):
-        return out_put_file_name
-    else:
-        return None
+    return out_put_file_name if os.path.lexists(out_put_file_name) else None
 
 async def checkDuration(file_path):
     metadata = extractMetadata(createParser(file_path))
-    duration = 0
-    if metadata is not None:
-        if metadata.has("duration"):
-            duration = metadata.get('duration').seconds
-    return duration
+    return (
+        metadata.get('duration').seconds
+        if metadata is not None and metadata.has("duration")
+        else 0
+    )
 
 async def dl_yt_thumb(link, msg_id):
     response = requests.get(link)
-    file = open(f"{Config.DOWNLOAD_BASE_DIR}/thum_{msg_id}.jpg", "wb")
-    file.write(response.content)
-    file.close()
+    with open(f"{Config.DOWNLOAD_BASE_DIR}/thum_{msg_id}.jpg", "wb") as file:
+        file.write(response.content)

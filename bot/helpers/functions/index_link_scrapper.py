@@ -10,13 +10,9 @@ async def fetch_index_links(link):
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     divs = soup.find_all('div', class_='list-group-item list-group-item-action')
     links_list = []
-    links = []
     for div in divs:
         a = div.find_all('a')
-        for link in a:
-            links_list.append(link.get('href'))
-    for link in links_list:
-        if not link.startswith('/'):
-            links.append(link)
+        links_list.extend(link.get('href') for link in a)
+    links = [link for link in links_list if not link.startswith('/')]
     print(links)
     return links

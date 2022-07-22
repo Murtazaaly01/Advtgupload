@@ -108,21 +108,20 @@ async def index_upload(bot, update):
                 message_id=init_msg.message_id,
                 text=lang.COMMON_ERR
             )
-        else:
-            await bot.edit_message_text(
-                chat_id=update.chat.id,
-                message_id=init_msg.message_id,
-                text=lang.INDEX_LINK_FOUND.format(len(links))
-            )
-            for link in links:
-                await file_dl(bot, update, link, init_msg, reply_to_id, upload=True)
-            await bot.send_message(
-                chat_id=update.chat.id,
-                text=lang.UPLOAD_SUCCESS,
-                reply_to_message_id=reply_to_id
-            )
-            await bot.delete_messages(
-                chat_id=update.chat.id,
-                message_ids=init_msg.message_id
-            )
+        await bot.edit_message_text(
+            chat_id=update.chat.id,
+            message_id=init_msg.message_id,
+            text=lang.INDEX_LINK_FOUND.format(len(links))
+        )
+        for link in links:
+            await file_dl(bot, update, link, init_msg, reply_to_id, upload=True)
+        await bot.send_message(
+            chat_id=update.chat.id,
+            text=lang.UPLOAD_SUCCESS,
+            reply_to_message_id=reply_to_id
+        )
+        await bot.delete_messages(
+            chat_id=update.chat.id,
+            message_ids=init_msg.message_id
+        )
             
